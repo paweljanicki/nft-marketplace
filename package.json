@@ -1,0 +1,14 @@
+{
+  "name": "nft-marketplace",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:hardhat": "cd hardhat && npx hardhat node",
+    "start:web": "cd web && npm run contracts:watch & cd web && npm run dev",
+    "start:backend": "cd backend && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
