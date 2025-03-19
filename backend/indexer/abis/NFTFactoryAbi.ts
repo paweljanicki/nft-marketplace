@@ -40,6 +40,7 @@ export const nftFactoryAbi = [
     inputs: [
       { name: "name", internalType: "string", type: "string" },
       { name: "symbol", internalType: "string", type: "string" },
+      { name: "collectionCID", internalType: "string", type: "string" },
     ],
     name: "createNFTContract",
     outputs: [{ name: "", internalType: "address", type: "address" }],

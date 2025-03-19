@@ -1283,6 +1283,7 @@ export const nftAbi = [
       { name: 'name', internalType: 'string', type: 'string' },
       { name: 'symbol', internalType: 'string', type: 'string' },
       { name: 'initialOwner', internalType: 'address', type: 'address' },
+      { name: 'collectionCID', internalType: 'string', type: 'string' },
     ],
     stateMutability: 'nonpayable',
   },
@@ -1481,6 +1482,13 @@ export const nftAbi = [
   {
     type: 'function',
     inputs: [],
+    name: 'getCollectionCID',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
     name: 'getCurrentTokenId',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
@@ -1563,6 +1571,13 @@ export const nftAbi = [
       { name: 'approved', internalType: 'bool', type: 'bool' },
     ],
     name: 'setApprovalForAll',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newCID', internalType: 'string', type: 'string' }],
+    name: 'setCollectionCID',
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -1653,6 +1668,7 @@ export const nftFactoryAbi = [
     inputs: [
       { name: 'name', internalType: 'string', type: 'string' },
       { name: 'symbol', internalType: 'string', type: 'string' },
+      { name: 'collectionCID', internalType: 'string', type: 'string' },
     ],
     name: 'createNFTContract',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
@@ -2907,6 +2923,14 @@ export const useReadNftGetApproved = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link nftAbi}__ and `functionName` set to `"getCollectionCID"`
+ */
+export const useReadNftGetCollectionCid = /*#__PURE__*/ createUseReadContract({
+  abi: nftAbi,
+  functionName: 'getCollectionCID',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link nftAbi}__ and `functionName` set to `"getCurrentTokenId"`
  */
 export const useReadNftGetCurrentTokenId = /*#__PURE__*/ createUseReadContract({
@@ -3017,6 +3041,13 @@ export const useWriteNftSetApprovalForAll =
   })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link nftAbi}__ and `functionName` set to `"setCollectionCID"`
+ */
+export const useWriteNftSetCollectionCid = /*#__PURE__*/ createUseWriteContract(
+  { abi: nftAbi, functionName: 'setCollectionCID' },
+)
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link nftAbi}__ and `functionName` set to `"transferFrom"`
  */
 export const useWriteNftTransferFrom = /*#__PURE__*/ createUseWriteContract({
@@ -3081,6 +3112,15 @@ export const useSimulateNftSetApprovalForAll =
   /*#__PURE__*/ createUseSimulateContract({
     abi: nftAbi,
     functionName: 'setApprovalForAll',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link nftAbi}__ and `functionName` set to `"setCollectionCID"`
+ */
+export const useSimulateNftSetCollectionCid =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: nftAbi,
+    functionName: 'setCollectionCID',
   })
 
 /**

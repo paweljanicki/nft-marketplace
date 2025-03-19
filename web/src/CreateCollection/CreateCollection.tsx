@@ -2,14 +2,22 @@ import { Button, TextInput } from "@mantine/core";
 import { matches, useForm } from "@mantine/form";
 import { useWriteNftFactoryCreateNftContract } from "../contracts";
 import { extractContractAddressFromTransaction } from ".";
+import { ImageUpload } from "../shared/components/ImageUpload";
+import { uploadFileToPinata } from "../shared/utils/pinata";
+import { useState } from "react";
 
-interface ICreateCollection {
+interface ICreateCollectionForm {
   name: string;
   symbol: string;
 }
 
+interface ICreateCollection extends ICreateCollectionForm {
+  collectionCID: string;
+}
+
 export function CreateCollection(): React.ReactElement {
-  const form = useForm<ICreateCollection>({
+  const [image, setImage] = useState<File | null>(null);
+  const form = useForm<ICreateCollectionForm>({
     initialValues: {
       name: "",
       symbol: "",
@@ -28,7 +36,11 @@ export function CreateCollection(): React.ReactElement {
 
   const { writeContractAsync } = useWriteNftFactoryCreateNftContract();
 
-  const createNFTCollection = async ({ name, symbol }: ICreateCollection) => {
+  const createNFTCollection = async ({
+    name,
+    symbol,
+    collectionCID,
+  }: ICreateCollection) => {
     const factoryContract = import.meta.env.VITE_NFT_FACTORY_CONTRACT;
     if (!factoryContract) {
       throw new Error("Factory contract not found");
@@ -36,7 +48,7 @@ export function CreateCollection(): React.ReactElement {
 
     const txHash = await writeContractAsync({
       address: factoryContract,
-      args: [name, symbol],
+      args: [name, symbol, collectionCID],
     });
 
     const NFTcontractAddress =
@@ -45,15 +57,25 @@ export function CreateCollection(): React.ReactElement {
     console.log("NFT Contract Address:", NFTcontractAddress);
   };
 
-  const handleSubmit = async (value: ICreateCollection) => {
+  const handleSubmit = async (value: ICreateCollectionForm) => {
     console.log(value);
-    createNFTCollection(value);
+    if (!image) {
+      return;
+    }
+    const collectionCID = await uploadFileToPinata(image);
+    console.log("Collection Image CID:", collectionCID);
+
+    if (!collectionCID) {
+      return;
+    }
+
+    await createNFTCollection({ ...value, collectionCID });
   };
 
   return (
     <form
       onSubmit={form.onSubmit(async (value) => {
-        handleSubmit(value as ICreateCollection);
+        handleSubmit(value as ICreateCollectionForm);
       })}
     >
       <TextInput
@@ -69,6 +91,14 @@ export function CreateCollection(): React.ReactElement {
         placeholder="CZAPC"
         withAsterisk
         mb={8}
+      />
+      <ImageUpload
+        onSelect={(file) => {
+          console.log("Selected file", file);
+          if (file) {
+            setImage(file);
+          }
+        }}
       />
       <Button type="submit" mt="md">
         Submit

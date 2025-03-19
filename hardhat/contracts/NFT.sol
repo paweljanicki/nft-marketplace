@@ -7,6 +7,7 @@ import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/
 
 contract NFT is ERC721, ERC721URIStorage, Ownable {
     uint256 private _nextTokenId;
+    string private _collectionCID;
 
     /**
      * @dev Constructor to initialize the contract
@@ -17,9 +18,11 @@ contract NFT is ERC721, ERC721URIStorage, Ownable {
     constructor(
         string memory name, 
         string memory symbol,
-        address initialOwner
+        address initialOwner,
+        string memory collectionCID
     ) ERC721(name, symbol) Ownable(initialOwner) {
         _nextTokenId = 1; // Start token IDs at 1
+        _collectionCID = collectionCID;
     }
 
     /**
@@ -55,5 +58,13 @@ contract NFT is ERC721, ERC721URIStorage, Ownable {
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721URIStorage) returns (bool) {
         return super.supportsInterface(interfaceId);
+    }
+
+    function setCollectionCID(string memory newCID) public onlyOwner {
+        _collectionCID = newCID;
+    }
+
+    function getCollectionCID() public view returns (string memory) {
+        return _collectionCID;
     }
 }

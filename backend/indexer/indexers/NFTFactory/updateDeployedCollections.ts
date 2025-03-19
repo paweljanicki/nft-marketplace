@@ -19,12 +19,19 @@ export async function updateDeployedCollections({
   const deployedCollections = await Promise.all(
     deployedCollectionsAddresses.map(async (address) => {
       const contract = new ethers.Contract(address, nftAbi, provider);
-      const [name, symbol, owner] = await Promise.all([
+      const [name, symbol, owner, collectionCID] = await Promise.all([
         contract.name(),
         contract.symbol(),
         contract.owner(),
+        contract.getCollectionCID(),
       ]);
-      return { contract_address: address, name, symbol, owner };
+      return {
+        contract_address: address,
+        name,
+        symbol,
+        owner,
+        collection_cid: collectionCID,
+      };
     })
   );
 

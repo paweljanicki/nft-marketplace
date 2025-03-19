@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ICollection } from "../shared/types";
 import supabase from "../shared/utils/supabase";
-import { Button, Grid, Text, Title } from "@mantine/core";
+import { Button, Grid, Image, Text, Title } from "@mantine/core";
 import { Link } from "react-router-dom";
 
 export function Collections(): React.ReactElement {
@@ -67,6 +67,13 @@ export function Collections(): React.ReactElement {
                   View
                 </Button>
               </Link>
+              <Image
+                src={
+                  import.meta.env.VITE_PINATA_BASE_URL +
+                  collection.collection_cid
+                }
+                alt={collection.name}
+              />
             </Grid.Col>
           );
         })}

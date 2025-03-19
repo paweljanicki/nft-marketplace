@@ -3,5 +3,6 @@ export interface ICollection {
   name: string;
   symbol: string;
   owner: string;
+  collection_cid: string;
   created_at: string;
 }

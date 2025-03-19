@@ -23,9 +23,13 @@ contract NFTFactory {
      * @param symbol The symbol of the NFT collection
      * @return The address of the newly deployed NFT contract
      */
-    function createNFTContract(string memory name, string memory symbol) public returns (address) {
+    function createNFTContract(
+      string memory name,
+      string memory symbol,
+      string memory collectionCID
+    ) public returns (address) {
         // Deploy a new NFT contract with the caller as the owner
-        NFT newNFTContract = new NFT(name, symbol, msg.sender);
+        NFT newNFTContract = new NFT(name, symbol, msg.sender, collectionCID);
         
         // Store the new contract address
         address contractAddress = address(newNFTContract);
