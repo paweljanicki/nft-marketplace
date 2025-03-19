@@ -1,0 +1,33 @@
+import { Contract, ethers } from "ethers";
+import { Database } from "../../types/supabase";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { nftAbi } from "../../abis/NFTAbi";
+
+export async function addNewCollections({
+  nftFactoryContract,
+  supabase,
+  provider,
+}: {
+  nftFactoryContract: Contract;
+  supabase: SupabaseClient<Database>;
+  provider: ethers.providers.Provider;
+}) {
+  nftFactoryContract.on(
+    "NFTContractCreated",
+    async (contractAddress, name, symbol, owner) => {
+      console.log(
+        "New NFT contract created",
+        contractAddress,
+        name,
+        symbol,
+        owner
+      );
+      const { error } = await supabase
+        .from("collections")
+        .upsert([{ contract_address: contractAddress, name, symbol, owner }]);
+      if (error) {
+        throw error;
+      }
+    }
+  );
+}

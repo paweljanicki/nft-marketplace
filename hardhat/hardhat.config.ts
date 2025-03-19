@@ -8,7 +8,7 @@ const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const PRIVATE_KEY = process.env.PRIVATE_KEY_1;
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "baseSepolia",
   networks: {
     hardhat: {},
     baseSepolia: {

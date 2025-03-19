@@ -1,3 +1,4 @@
+import { Contracts } from "./Contracts";
 import { Pinata } from "./Pinata";
 
 export const Kitchensink = () => {
@@ -5,6 +6,7 @@ export const Kitchensink = () => {
     <div>
       <h1>Kitchensink</h1>
       <Pinata />
+      <Contracts />
     </div>
   );
 };

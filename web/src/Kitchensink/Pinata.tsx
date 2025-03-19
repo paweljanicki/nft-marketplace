@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { pinata } from "../utils/pinata";
-import { getSignedUrl } from "../utils";
+import { pinata } from "../shared/utils/pinata";
+import { getSignedUrl } from "../shared/utils";
 
 export const Pinata = () => {
   const [file, setFile] = useState<File | null>(null);

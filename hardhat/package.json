@@ -5,7 +5,9 @@
   "scripts": {
     "reset": "npx hardhat clean",
     "compile": "npx hardhat compile",
-    "deploy:lock": "npx hardhat ignition deploy ./ignition/modules/Lock.ts --network localhost"
+    "deploy:lock": "npx hardhat ignition deploy ./ignition/modules/Lock.ts --network localhost",
+    "deploy:nft": "npx hardhat ignition deploy ./ignition/modules/NFT.ts --network localhost",
+    "deploy:nftFactory": "npx hardhat ignition deploy ./ignition/modules/NFTFactory.ts --network localhost"
   },
   "keywords": [],
   "author": "",

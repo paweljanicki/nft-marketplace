@@ -18,6 +18,9 @@ import "./index.css";
 import { ConnectKitProvider } from "connectkit";
 import { MantineProvider } from "@mantine/core";
 import { Kitchensink } from "./Kitchensink/Kitchensink.tsx";
+import { CreateCollection } from "./CreateCollection/CreateCollection.tsx";
+import { Collections } from "./Collections/Collections.tsx";
+import { CollectionDetails } from "./CollectionDetails/CollectionDetails.tsx";
 
 globalThis.Buffer = Buffer;
 
@@ -30,12 +33,20 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <div>Main</div> },
       {
-        path: "/admin",
+        path: "/create-collection",
+        element: <CreateCollection />,
+      },
+      {
+        path: "/collections",
         element: <Outlet />,
         children: [
           {
-            path: "collection",
-            element: <div>Collection</div>,
+            path: "",
+            element: <Collections />,
+          },
+          {
+            path: ":address",
+            element: <CollectionDetails />,
           },
         ],
       },

@@ -4,6 +4,7 @@ import { Notifications } from "@mantine/notifications";
 import { AppShell, Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Header } from "./Header";
+import { Navbar } from "./Navbar";
 
 function App() {
   // const account = useAccount();
@@ -19,7 +20,7 @@ function App() {
         header={{ height: 60 }}
         navbar={{
           width: 240,
-          breakpoint: "sm",
+          breakpoint: "md",
           collapsed: { mobile: !opened },
         }}
         padding="md"
@@ -35,7 +36,9 @@ function App() {
           </Header>
         </AppShell.Header>
 
-        <AppShell.Navbar p="md">{/* <Navbar /> */}</AppShell.Navbar>
+        <AppShell.Navbar p="md">
+          <Navbar />
+        </AppShell.Navbar>
 
         <AppShell.Main w={{ base: "95vw" }}>
           <Outlet />
