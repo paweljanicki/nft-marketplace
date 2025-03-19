@@ -21,6 +21,7 @@ import { Kitchensink } from "./Kitchensink/Kitchensink.tsx";
 import { CreateCollection } from "./CreateCollection/CreateCollection.tsx";
 import { Collections } from "./Collections/Collections.tsx";
 import { CollectionDetails } from "./CollectionDetails/CollectionDetails.tsx";
+import { Mint } from "./Mint/Mint.tsx";
 
 globalThis.Buffer = Buffer;
 
@@ -46,7 +47,17 @@ const router = createBrowserRouter([
           },
           {
             path: ":address",
-            element: <CollectionDetails />,
+            element: <Outlet />,
+            children: [
+              {
+                path: "",
+                element: <CollectionDetails />,
+              },
+              {
+                path: "mint",
+                element: <Mint />,
+              },
+            ],
           },
         ],
       },

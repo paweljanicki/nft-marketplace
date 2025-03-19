@@ -42,11 +42,11 @@ contract NFT is ERC721, ERC721URIStorage, Ownable {
     }
 
     /**
-     * @dev Returns the current token ID counter value (without incrementing it)
-     * @return The current value of _nextTokenId
+     * @dev Returns tokens count
+     * @return The current value of _nextTokenId - 1
      */
-    function getCurrentTokenId() public view onlyOwner returns (uint256) {
-        return _nextTokenId;
+    function getTokensCount() public view returns (uint256) {
+        return _nextTokenId - 1;
     }
 
     /**

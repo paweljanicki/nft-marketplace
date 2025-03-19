@@ -15,7 +15,11 @@ const navItems = [
   },
 ];
 
-export function Navbar(): React.ReactElement {
+export function Navbar({
+  onNavigate,
+}: {
+  onNavigate: () => void;
+}): React.ReactElement {
   const location = useLocation();
 
   return (
@@ -28,6 +32,7 @@ export function Navbar(): React.ReactElement {
           to={item.to}
           label={item.label}
           leftSection={<item.icon />}
+          onClick={onNavigate}
         ></NavLink>
       ))}
     </>

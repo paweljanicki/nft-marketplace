@@ -1489,7 +1489,7 @@ export const nftAbi = [
   {
     type: 'function',
     inputs: [],
-    name: 'getCurrentTokenId',
+    name: 'getTokensCount',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },
@@ -1648,6 +1648,12 @@ export const nftFactoryAbi = [
         name: 'owner',
         internalType: 'address',
         type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'collectionCID',
+        internalType: 'string',
+        type: 'string',
         indexed: false,
       },
     ],
@@ -2931,11 +2937,11 @@ export const useReadNftGetCollectionCid = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link nftAbi}__ and `functionName` set to `"getCurrentTokenId"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link nftAbi}__ and `functionName` set to `"getTokensCount"`
  */
-export const useReadNftGetCurrentTokenId = /*#__PURE__*/ createUseReadContract({
+export const useReadNftGetTokensCount = /*#__PURE__*/ createUseReadContract({
   abi: nftAbi,
-  functionName: 'getCurrentTokenId',
+  functionName: 'getTokensCount',
 })
 
 /**

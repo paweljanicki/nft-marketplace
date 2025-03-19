@@ -1,10 +1,12 @@
-import { Button, TextInput } from "@mantine/core";
+import { Button, Flex, Loader, Stack, Text, TextInput } from "@mantine/core";
 import { matches, useForm } from "@mantine/form";
 import { useWriteNftFactoryCreateNftContract } from "../contracts";
 import { extractContractAddressFromTransaction } from ".";
 import { ImageUpload } from "../shared/components/ImageUpload";
 import { uploadFileToPinata } from "../shared/utils/pinata";
 import { useState } from "react";
+import { notifications } from "@mantine/notifications";
+import { Link } from "react-router-dom";
 
 interface ICreateCollectionForm {
   name: string;
@@ -17,6 +19,12 @@ interface ICreateCollection extends ICreateCollectionForm {
 
 export function CreateCollection(): React.ReactElement {
   const [image, setImage] = useState<File | null>(null);
+  const [status, setStatus] = useState<
+    "default" | "uploadingImage" | "deployingContract" | "success" | "error"
+  >("default");
+  const [deployedContractAddress, setDeployedContractAddress] =
+    useState<string>("");
+
   const form = useForm<ICreateCollectionForm>({
     initialValues: {
       name: "",
@@ -55,22 +63,72 @@ export function CreateCollection(): React.ReactElement {
       await extractContractAddressFromTransaction(txHash);
 
     console.log("NFT Contract Address:", NFTcontractAddress);
+
+    if (!NFTcontractAddress) {
+      throw new Error("Error creating NFT collection");
+    }
+    setDeployedContractAddress(NFTcontractAddress);
   };
 
   const handleSubmit = async (value: ICreateCollectionForm) => {
     console.log(value);
     if (!image) {
+      notifications.show({
+        title: "Error",
+        message: "Please upload an image",
+        color: "red",
+      });
       return;
     }
+    setStatus("uploadingImage");
     const collectionCID = await uploadFileToPinata(image);
     console.log("Collection Image CID:", collectionCID);
 
     if (!collectionCID) {
+      setStatus("error");
       return;
     }
 
-    await createNFTCollection({ ...value, collectionCID });
+    setStatus("deployingContract");
+    try {
+      await createNFTCollection({ ...value, collectionCID });
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      return;
+    }
   };
+
+  if (status !== "default") {
+    return (
+      <Flex align="center" justify="center" style={{ height: "80vh" }}>
+        <Flex align="center" justify="center" gap={16}>
+          <Text>
+            {status === "uploadingImage" && "Uploading Image. Please wait..."}
+            {status === "deployingContract" &&
+              "To create the collection approve transaction in your wallet"}
+          </Text>
+          {(status === "uploadingImage" || status === "deployingContract") && (
+            <Loader />
+          )}
+          <Text c="red">
+            {status === "error" && "Error creating collection"}
+          </Text>
+          {status === "success" && (
+            <Stack align="center">
+              <Text>
+                Collection created successfully with contract address:
+              </Text>
+              <Text fw="bold">{deployedContractAddress}</Text>
+              <Link to={`/collections/${deployedContractAddress}`}>
+                <Button>View collection</Button>
+              </Link>
+            </Stack>
+          )}
+        </Flex>
+      </Flex>
+    );
+  }
 
   return (
     <form

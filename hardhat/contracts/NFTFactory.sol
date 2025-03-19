@@ -9,7 +9,7 @@ import "./NFT.sol";
 
 contract NFTFactory {
     // Event emitted when a new NFT contract is created
-    event NFTContractCreated(address contractAddress, string name, string symbol, address owner);
+    event NFTContractCreated(address contractAddress, string name, string symbol, address owner, string collectionCID);
     
     // Array to keep track of all deployed contracts
     address[] public deployedContracts;
@@ -37,7 +37,7 @@ contract NFTFactory {
         contractsByOwner[msg.sender].push(contractAddress);
         
         // Emit an event
-        emit NFTContractCreated(contractAddress, name, symbol, msg.sender);
+        emit NFTContractCreated(contractAddress, name, symbol, msg.sender, collectionCID);
         
         return contractAddress;
     }

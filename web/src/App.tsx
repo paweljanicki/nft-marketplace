@@ -37,7 +37,13 @@ function App() {
         </AppShell.Header>
 
         <AppShell.Navbar p="md">
-          <Navbar />
+          <Navbar
+            onNavigate={() => {
+              if (opened) {
+                toggle();
+              }
+            }}
+          />
         </AppShell.Navbar>
 
         <AppShell.Main w={{ base: "95vw" }}>

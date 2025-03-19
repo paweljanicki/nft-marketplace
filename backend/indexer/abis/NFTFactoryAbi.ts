@@ -22,6 +22,12 @@ export const nftFactoryAbi = [
         type: "address",
         indexed: false,
       },
+      {
+        name: "collectionCID",
+        internalType: "string",
+        type: "string",
+        indexed: false,
+      },
     ],
     name: "NFTContractCreated",
   },

@@ -14,17 +14,24 @@ export async function addNewCollections({
 }) {
   nftFactoryContract.on(
     "NFTContractCreated",
-    async (contractAddress, name, symbol, owner) => {
+    async (contractAddress, name, symbol, owner, collectionCID) => {
       console.log(
         "New NFT contract created",
         contractAddress,
         name,
         symbol,
-        owner
+        owner,
+        collectionCID
       );
-      const { error } = await supabase
-        .from("collections")
-        .upsert([{ contract_address: contractAddress, name, symbol, owner }]);
+      const { error } = await supabase.from("collections").upsert([
+        {
+          contract_address: contractAddress,
+          name,
+          symbol,
+          owner,
+          collection_cid: collectionCID,
+        },
+      ]);
       if (error) {
         throw error;
       }

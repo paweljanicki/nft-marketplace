@@ -1,7 +1,6 @@
 import {
   nftFactoryAbi,
   useReadErc721TokenUri,
-  useReadNftGetCurrentTokenId,
   useReadNftOwner,
   useReadNftOwnerOf,
   useWriteNftFactoryCreateNftContract,
@@ -18,9 +17,9 @@ export const Contracts = () => {
     address: nftContract,
   });
 
-  const currentTokenId = useReadNftGetCurrentTokenId({
-    address: nftContract,
-  });
+  // const currentTokenId = useReadNftGetCurrentTokenId({
+  //   address: nftContract,
+  // });
 
   const token1Uri = useReadErc721TokenUri({
     address: nftContract,
@@ -60,7 +59,7 @@ export const Contracts = () => {
 
     const txHash = await createNFTCollection({
       address: factoryContract,
-      args: ["Newest", "NWST"],
+      args: ["Newest", "NWST", "https://ipfs.io/ipfs/asd"],
     });
 
     console.log(txHash);
@@ -100,12 +99,12 @@ export const Contracts = () => {
       <div>
         Owner:{contractOwner.isSuccess ? contractOwner.data : "not found"}
       </div>
-      <div>
+      {/* <div>
         Current Token Id:
         {currentTokenId.isSuccess
           ? currentTokenId.data.toString()
           : "not found"}
-      </div>
+      </div> */}
       <div>
         Token 1 Uri:{token1Uri.isSuccess ? token1Uri.data : "not found"}
       </div>

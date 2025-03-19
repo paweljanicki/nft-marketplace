@@ -11,3 +11,12 @@ export const getSignedUrl = async () => {
 
   return data.uploadUrl;
 };
+
+export const createJsonFile = (
+  data: object,
+  fileName: string = "metadata.json"
+) => {
+  const jsonString = JSON.stringify(data, null, 2);
+  const file = new File([jsonString], fileName, { type: "application/json" });
+  return file;
+};

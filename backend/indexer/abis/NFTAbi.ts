@@ -211,7 +211,7 @@ export const nftAbi = [
   {
     type: "function",
     inputs: [],
-    name: "getCurrentTokenId",
+    name: "getTokensCount",
     outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
     stateMutability: "view",
   },

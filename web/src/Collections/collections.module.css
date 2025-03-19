@@ -1,0 +1,8 @@
+.collectionCard {
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.collectionCard:hover {
+  background-color: #f5f5f5;
+}

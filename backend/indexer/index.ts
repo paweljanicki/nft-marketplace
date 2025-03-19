@@ -2,7 +2,8 @@ import dotenv from "dotenv";
 import { createClient } from "@supabase/supabase-js";
 import { ethers } from "ethers";
 import { Database } from "./types/supabase";
-import { setupNFTFactoryIndexer } from "./indexers/NFTFactory/NFTFactory";
+import { setupNFTFactoryIndexer } from "./indexers/NFTFactory/NFTFactoryIndexer";
+import { setupNFTIndexer } from "./indexers/NFT/NFTIndexer";
 
 dotenv.config();
 
@@ -29,6 +30,13 @@ async function main() {
     if (NFT_FACTORY_ADDRESS) {
       console.log(`Starting NFTFactory indexer for ${NFT_FACTORY_ADDRESS}`);
       await setupNFTFactoryIndexer(
+        provider,
+        supabase,
+        NFT_FACTORY_ADDRESS,
+        START_BLOCK
+      );
+
+      await setupNFTIndexer(
         provider,
         supabase,
         NFT_FACTORY_ADDRESS,
