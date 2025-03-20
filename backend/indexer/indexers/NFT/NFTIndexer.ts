@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "../../types/supabase";
-import { saveEvent } from "../../utils/events";
 import { nftFactoryAbi } from "../../abis/NFTFactoryAbi";
 import { nftAbi } from "../../abis/NFTAbi";
 import { updateNFTsOfDeployedCollections } from "./updateNFTsOfDeployedCollections";

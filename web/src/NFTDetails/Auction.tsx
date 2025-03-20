@@ -39,10 +39,7 @@ export const Auction = ({ nft }: { nft: INFT }): React.ReactElement => {
           return;
         }
 
-        console.log("Updated auction", payload.new);
-
         const updateAuction = payload.new as IAuction;
-
         if (auction?.auction_id === payload.new.auction_id) {
           setAuction(updateAuction);
         }
@@ -50,7 +47,29 @@ export const Auction = ({ nft }: { nft: INFT }): React.ReactElement => {
     )
     .subscribe();
 
-  if (!account) {
+  supabase
+    .channel("auctions")
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "auctions" },
+      (payload) => {
+        console.log("Change received!", payload);
+        if (!payload.new) {
+          return;
+        }
+
+        const createdAuction = payload.new as IAuction;
+        if (
+          createdAuction.collection_address === nft.collection_address &&
+          createdAuction.token_id === nft.token_id
+        ) {
+          setAuction(createdAuction);
+        }
+      }
+    )
+    .subscribe();
+
+  if (!account.address) {
     return <p>Please connect your wallet to view auction details</p>;
   }
 
@@ -80,5 +99,5 @@ export const Auction = ({ nft }: { nft: INFT }): React.ReactElement => {
     return <StartAuction nft={nft} />;
   }
 
-  return <AuctionDetails auction={auction} />;
+  return <AuctionDetails auction={auction} accountAddress={account.address} />;
 };

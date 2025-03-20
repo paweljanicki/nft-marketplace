@@ -16,14 +16,13 @@ export function CreateAuction({ nft }: { nft: INFT }): React.ReactElement {
       args: [
         nft.collection_address as Address,
         BigInt(nft.token_id),
-        BigInt(1000),
-        BigInt(36000),
-      ], // 1000 starting bid, 10 hours auction duration
+        BigInt(1000000000000), // starting bid in wei
+        BigInt(3600), // duration in seconds
+      ],
     });
   };
   return (
     <div>
-      <h1>CreateAuction</h1>
       <Button onClick={createAuction}>Create Auction</Button>
     </div>
   );

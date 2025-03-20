@@ -6,6 +6,7 @@ import { updateCreatedEnglishAuctions } from "./updateCreatedEnglishAuctions";
 import { addNewEnglishAuctions } from "./addNewEnglishAuctions";
 import { listenToBids } from "./listenToBids";
 import { getExistingBids } from "./getExistingBids";
+import { updateStartedEnglishAuctions } from "./updateStartedEnglishAuctions";
 
 export async function setupEnglishAuctionIndexer(
   provider: ethers.providers.Provider,
@@ -26,6 +27,12 @@ export async function setupEnglishAuctionIndexer(
   });
 
   addNewEnglishAuctions({
+    englishAuctionContract,
+    supabase,
+    provider,
+  });
+
+  updateStartedEnglishAuctions({
     englishAuctionContract,
     supabase,
     provider,

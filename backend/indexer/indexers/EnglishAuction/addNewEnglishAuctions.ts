@@ -43,6 +43,9 @@ export async function addNewEnglishAuctions({
         highest_bidder: ethers.constants.AddressZero,
         highest_bid: startingBid.toString(),
         bids_count: 0,
+        end_at: new Date(
+          (Number(timestamp) + Number(duration)) * 1000
+        ).toISOString(),
       };
 
       const { error } = await supabase.from("auctions").upsert([auction]);

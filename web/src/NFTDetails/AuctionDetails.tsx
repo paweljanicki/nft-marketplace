@@ -1,15 +1,17 @@
-import { Box, Button, Flex, Table, Text } from "@mantine/core";
+import { Box, Flex, Table, Text } from "@mantine/core";
 import { IAuction, IBid } from "../shared/types";
 import { useEffect, useState } from "react";
 import supabase from "../shared/utils/supabase";
 import { ShortAddress } from "../shared/components/ShortAddress";
 import { PlaceBid } from "./PlaceBid";
-import { formatEther } from "viem";
+import { Address, formatEther } from "viem";
 
 export function AuctionDetails({
   auction,
+  accountAddress,
 }: {
   auction: IAuction;
+  accountAddress: Address;
 }): React.ReactElement {
   const [bids, setBids] = useState<IBid[]>([]);
 
@@ -66,7 +68,9 @@ export function AuctionDetails({
 
   return (
     <Box>
-      <PlaceBid auction={auction} />
+      {auction.status === "STARTED" && auction.seller !== accountAddress && (
+        <PlaceBid auction={auction} />
+      )}
       <Flex
         direction={{ base: "column", sm: "row" }}
         gap={{ base: 8, sm: 32 }}

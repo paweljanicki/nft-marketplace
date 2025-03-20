@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ICollection } from "../shared/types";
 import supabase from "../shared/utils/supabase";
-import { Box, Flex, Grid, Image, Loader, Text, Title } from "@mantine/core";
+import { Box, Flex, Grid, Text, Title } from "@mantine/core";
 import { Link } from "react-router-dom";
 import styles from "./collections.module.css";
 import { ImageLoader } from "../shared/components/ImageLoader";

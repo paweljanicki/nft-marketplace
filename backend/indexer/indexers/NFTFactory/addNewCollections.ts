@@ -2,6 +2,7 @@ import { Contract, ethers } from "ethers";
 import { Database } from "../../types/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { nftAbi } from "../../abis/NFTAbi";
+import { addNewNFTs } from "../NFT/addNewNFTs";
 
 export async function addNewCollections({
   nftFactoryContract,
@@ -35,6 +36,12 @@ export async function addNewCollections({
       if (error) {
         throw error;
       }
+
+      addNewNFTs({
+        nftContract: new ethers.Contract(contractAddress, nftAbi, provider),
+        supabase,
+        provider,
+      });
     }
   );
 }

@@ -53,6 +53,7 @@ export async function updateCreatedEnglishAuctions({
       highest_bidder: highestBidder,
       highest_bid: highestBid ? highestBid.toString() : null,
       bids_count: Number(bidsCount),
+      end_at: new Date(Number(endAt) * 1000).toISOString(),
     });
   }
 

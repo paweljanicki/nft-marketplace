@@ -1,14 +1,4 @@
-import {
-  Card,
-  Image,
-  Text,
-  Badge,
-  Button,
-  Group,
-  Flex,
-  Box,
-  Loader,
-} from "@mantine/core";
+import { Card, Text, Button, Group, Flex } from "@mantine/core";
 import { INFT } from "../shared/types";
 import { Link } from "react-router-dom";
 import { ImageLoader } from "../shared/components/ImageLoader";

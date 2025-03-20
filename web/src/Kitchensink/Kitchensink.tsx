@@ -1,4 +1,3 @@
-import { Contracts } from "./Contracts";
 import { EnglishAuction } from "./EnglishAuction";
 import { Pinata } from "./Pinata";
 

@@ -27,13 +27,12 @@ export function StartAuction({ nft }: { nft: INFT }): React.ReactElement {
     await approveEnglishAuction();
     await callStartAuction({
       address: ENGLISH_AUCTION_ADDRESS as Address,
-      args: [BigInt(nft.token_id), BigInt(36000)], // 10 hours auction duration
+      args: [BigInt(nft.token_id), BigInt(36000)], // duration in seconds
     });
   };
 
   return (
     <div>
-      <h1>StartAuction</h1>
       <Button onClick={startAuction}>Start Auction</Button>
     </div>
   );

@@ -28,23 +28,23 @@ async function main() {
 
   try {
     // Start indexers for each contract type
-    // if (NFT_FACTORY_ADDRESS) {
-    //   console.log(`Starting NFTFactory indexer for ${NFT_FACTORY_ADDRESS}`);
-    //   await setupNFTFactoryIndexer(
-    //     provider,
-    //     supabase,
-    //     NFT_FACTORY_ADDRESS,
-    //     START_BLOCK
-    //   );
+    if (NFT_FACTORY_ADDRESS) {
+      console.log(`Starting NFTFactory indexer for ${NFT_FACTORY_ADDRESS}`);
+      await setupNFTFactoryIndexer(
+        provider,
+        supabase,
+        NFT_FACTORY_ADDRESS,
+        START_BLOCK
+      );
 
-    //   console.log(`Starting NFT indexer for ${NFT_FACTORY_ADDRESS}`);
-    //   await setupNFTIndexer(
-    //     provider,
-    //     supabase,
-    //     NFT_FACTORY_ADDRESS,
-    //     START_BLOCK
-    //   );
-    // }
+      console.log(`Starting NFT indexer for ${NFT_FACTORY_ADDRESS}`);
+      await setupNFTIndexer(
+        provider,
+        supabase,
+        NFT_FACTORY_ADDRESS,
+        START_BLOCK
+      );
+    }
 
     if (ENGLISH_AUCTION_ADDRESS) {
       console.log(

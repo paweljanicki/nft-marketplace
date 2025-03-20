@@ -143,6 +143,7 @@ contract EnglishAuction is ERC721Holder, ReentrancyGuard, Pausable, Ownable {
         uint256 _startingBid,
         uint256 _duration
     ) external whenNotPaused returns (uint256) {
+        // Currently anyone can create an auction, but only NFT owner can start it. This should be limited to NFT owner only
         require(_nftContract != address(0), "Invalid NFT address");
         require(_startingBid > 0, "Starting bid must be greater than zero");
         require(_duration >= 1 hours, "Auction must be at least 1 hour");
