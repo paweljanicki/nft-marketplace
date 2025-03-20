@@ -24,7 +24,14 @@ export interface IAuction {
   seller: string;
   starting_bid: string;
   status: string;
-  highest_bidder: string | null;
-  highest_bid: string | null;
+  highest_bidder: string;
+  highest_bid: string;
   bids_count: number;
+}
+
+export interface IBid {
+  auction_id: number;
+  bidder: string;
+  amount: string;
+  timestamp: string;
 }

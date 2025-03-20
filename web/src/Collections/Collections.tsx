@@ -50,7 +50,7 @@ export function Collections(): React.ReactElement {
   }
 
   return (
-    <div>
+    <Box maw={1024}>
       <h1>Collections</h1>
 
       <Grid>
@@ -86,6 +86,6 @@ export function Collections(): React.ReactElement {
           );
         })}
       </Grid>
-    </div>
+    </Box>
   );
 }

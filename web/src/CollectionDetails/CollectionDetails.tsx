@@ -6,6 +6,7 @@ import { notifications } from "@mantine/notifications";
 import { Box, Button, Flex, Image, Loader, Text, Title } from "@mantine/core";
 import { useAccount } from "wagmi";
 import { NFTCard } from "./NFTCard";
+import { ShortAddress } from "../shared/components/ShortAddress";
 
 export function CollectionDetails(): React.ReactElement {
   const account = useAccount();
@@ -82,7 +83,7 @@ export function CollectionDetails(): React.ReactElement {
   }
 
   return (
-    <Box>
+    <Box maw={1024}>
       <Flex justify="space-between" align="center" mb={16}>
         <Title order={1}>{collection.name}</Title>
         {account && account.address === collection.owner && (
@@ -122,13 +123,19 @@ export function CollectionDetails(): React.ReactElement {
               {collection.symbol}
             </Text>
           </Flex>
-          <Flex gap="8">
+          <Flex
+            direction={{ base: "column", sm: "row" }}
+            gap={{ base: 0, sm: 8 }}
+          >
             <Text>Contract:</Text>
-            <Text>{collection.contract_address}</Text>
+            <ShortAddress address={collection.contract_address} />
           </Flex>
-          <Flex gap="8">
+          <Flex
+            direction={{ base: "column", sm: "row" }}
+            gap={{ base: 0, sm: 8 }}
+          >
             <Text>Owner:</Text>
-            <Text>{collection.owner}</Text>
+            <ShortAddress address={collection.owner} />
           </Flex>
         </Flex>
       </Flex>

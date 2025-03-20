@@ -9,3 +9,10 @@ export interface IAuction {
   highest_bid: string | null;
   bids_count: number;
 }
+
+export interface IBid {
+  auction_id: number;
+  bidder: string;
+  amount: string;
+  timestamp: string;
+}

@@ -1,4 +1,12 @@
-import { Button, Flex, Loader, Stack, Text, TextInput } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Flex,
+  Loader,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { matches, useForm } from "@mantine/form";
 import { useWriteNftFactoryCreateNftContract } from "../contracts";
 import { extractContractAddressFromTransaction } from ".";
@@ -131,36 +139,38 @@ export function CreateCollection(): React.ReactElement {
   }
 
   return (
-    <form
-      onSubmit={form.onSubmit(async (value) => {
-        handleSubmit(value as ICreateCollectionForm);
-      })}
-    >
-      <TextInput
-        {...form.getInputProps("name")}
-        label="Name"
-        placeholder="Crazy Ape Club"
-        withAsterisk
-        mb={8}
-      />
-      <TextInput
-        {...form.getInputProps("symbol")}
-        label="Symbol"
-        placeholder="CZAPC"
-        withAsterisk
-        mb={8}
-      />
-      <ImageUpload
-        onSelect={(file) => {
-          console.log("Selected file", file);
-          if (file) {
-            setImage(file);
-          }
-        }}
-      />
-      <Button type="submit" mt="md">
-        Submit
-      </Button>
-    </form>
+    <Box maw={1024}>
+      <form
+        onSubmit={form.onSubmit(async (value) => {
+          handleSubmit(value as ICreateCollectionForm);
+        })}
+      >
+        <TextInput
+          {...form.getInputProps("name")}
+          label="Name"
+          placeholder="Crazy Ape Club"
+          withAsterisk
+          mb={8}
+        />
+        <TextInput
+          {...form.getInputProps("symbol")}
+          label="Symbol"
+          placeholder="CZAPC"
+          withAsterisk
+          mb={8}
+        />
+        <ImageUpload
+          onSelect={(file) => {
+            console.log("Selected file", file);
+            if (file) {
+              setImage(file);
+            }
+          }}
+        />
+        <Button type="submit" mt="md">
+          Submit
+        </Button>
+      </form>
+    </Box>
   );
 }

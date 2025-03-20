@@ -4,8 +4,11 @@ import supabase from "../shared/utils/supabase";
 import { CreateAuction } from "./CreateAuction";
 import { StartAuction } from "./StartAuction";
 import { AuctionDetails } from "./AuctionDetails";
+import { useAccount } from "wagmi";
+import { Text } from "@mantine/core";
 
 export const Auction = ({ nft }: { nft: INFT }): React.ReactElement => {
+  const account = useAccount();
   const [auction, setAuction] = useState<IAuction | null>(null);
 
   useEffect(() => {
@@ -47,15 +50,35 @@ export const Auction = ({ nft }: { nft: INFT }): React.ReactElement => {
     )
     .subscribe();
 
-  if (!auction) {
+  if (!account) {
+    return <p>Please connect your wallet to view auction details</p>;
+  }
+
+  if (!auction && nft.owner === account.address) {
     return <CreateAuction nft={nft} />;
   }
 
-  if (auction.status === "NOT_STARTED") {
-    return <StartAuction nft={nft} />;
+  if (!auction) {
+    return (
+      <Text>
+        Auction not started yet. Only the owner can start auction. If you own
+        this NFT connect appropriate wallet
+      </Text>
+    );
   }
 
-  console.log("Auction", auction);
+  if (auction.status === "NOT_STARTED" && account?.address !== auction.seller) {
+    return (
+      <Text>
+        Auction not started yet. Only the owner can start auction. If you own
+        this NFT connect appropriate wallet
+      </Text>
+    );
+  }
+
+  if (auction.status === "NOT_STARTED" && account?.address === auction.seller) {
+    return <StartAuction nft={nft} />;
+  }
 
   return <AuctionDetails auction={auction} />;
 };

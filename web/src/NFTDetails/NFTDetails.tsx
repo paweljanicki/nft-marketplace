@@ -4,8 +4,8 @@ import { INFT } from "../shared/types";
 import supabase from "../shared/utils/supabase";
 import { ImageLoader } from "../shared/components/ImageLoader";
 import { Box, Flex, Stack, Text, Title } from "@mantine/core";
-import { NFTAuction } from "./NFTAuction";
 import { Auction } from "./Auction";
+import { ShortAddress } from "../shared/components/ShortAddress";
 
 export const NFTDetails = (): React.ReactElement => {
   const { address, tokenId } = useParams();
@@ -33,7 +33,7 @@ export const NFTDetails = (): React.ReactElement => {
   }
 
   return (
-    <Stack>
+    <Stack maw={1024}>
       <Flex gap={32} direction={{ base: "column", sm: "row" }}>
         <Flex justify="center">
           <ImageLoader
@@ -50,18 +50,21 @@ export const NFTDetails = (): React.ReactElement => {
             </Box>
             {nft.name}
           </Title>
-          <Text>Owned by: {nft.owner}</Text>
-          <Text>
-            Collection:{" "}
+          <Flex gap={4}>
+            <Text>Owned by:</Text>
+            <ShortAddress address={nft.owner} />
+          </Flex>
+          <Flex gap={4}>
+            <Text>Collection: </Text>
             <Text
               c="blue.4"
               component={Link}
               to={`/collections/${nft.collection_address}`}
             >
-              {nft.collection_address}
+              <ShortAddress address={nft.collection_address} />
             </Text>
-          </Text>
-          <Text my={16} h={172} style={{ overflow: "hidden" }}>
+          </Flex>
+          <Text my={16} mah={172} style={{ overflow: "hidden" }}>
             {nft.description}
           </Text>
         </Flex>

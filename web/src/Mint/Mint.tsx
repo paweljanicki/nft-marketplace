@@ -128,7 +128,12 @@ export function Mint(): React.ReactElement {
 
   if (status !== "default") {
     return (
-      <Flex align="center" justify="center" style={{ height: "80vh" }}>
+      <Flex
+        maw={1024}
+        align="center"
+        justify="center"
+        style={{ height: "80vh" }}
+      >
         <Flex align="center" justify="center" gap={16}>
           <Text>
             {status === "uploadingMetadata" &&
@@ -156,7 +161,7 @@ export function Mint(): React.ReactElement {
   }
 
   return (
-    <Box>
+    <Box maw={1024}>
       <Title order={1}>Mint NFT</Title>
       <Text>{address}</Text>
       <form
