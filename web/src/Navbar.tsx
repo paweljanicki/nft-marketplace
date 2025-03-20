@@ -1,6 +1,10 @@
 import { NavLink } from "@mantine/core";
 import { Link, useLocation } from "react-router-dom";
-import { IconListLetters, IconCirclePlusFilled } from "@tabler/icons-react";
+import {
+  IconListLetters,
+  IconCirclePlusFilled,
+  IconTestPipe,
+} from "@tabler/icons-react";
 
 const navItems = [
   {
@@ -12,6 +16,11 @@ const navItems = [
     to: "collections",
     label: "Collections",
     icon: IconListLetters,
+  },
+  {
+    to: "kitchensink",
+    label: "Kitchensink",
+    icon: IconTestPipe,
   },
 ];
 

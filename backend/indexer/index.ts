@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { Database } from "./types/supabase";
 import { setupNFTFactoryIndexer } from "./indexers/NFTFactory/NFTFactoryIndexer";
 import { setupNFTIndexer } from "./indexers/NFT/NFTIndexer";
+import { setupEnglishAuctionIndexer } from "./indexers/EnglishAuction/EnglishAuctionIndexer";
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const RPC_URL =
 const SUPABASE_URL = process.env.SUPABASE_URL || "";
 const SUPABASE_KEY = process.env.SUPABASE_KEY || "";
 const NFT_FACTORY_ADDRESS = process.env.NFT_FACTORY_ADDRESS || "";
-const AUCTION_HOUSE_ADDRESS = process.env.AUCTION_HOUSE_ADDRESS || "";
+const ENGLISH_AUCTION_ADDRESS = process.env.ENGLISH_AUCTION_ADDRESS || "";
 const START_BLOCK = parseInt(process.env.START_BLOCK || "0");
 
 // Initialize Supabase client
@@ -27,38 +28,35 @@ async function main() {
 
   try {
     // Start indexers for each contract type
-    if (NFT_FACTORY_ADDRESS) {
-      console.log(`Starting NFTFactory indexer for ${NFT_FACTORY_ADDRESS}`);
-      await setupNFTFactoryIndexer(
-        provider,
-        supabase,
-        NFT_FACTORY_ADDRESS,
-        START_BLOCK
-      );
-
-      await setupNFTIndexer(
-        provider,
-        supabase,
-        NFT_FACTORY_ADDRESS,
-        START_BLOCK
-      );
-    }
-
-    // if (AUCTION_HOUSE_ADDRESS) {
-    //   console.log(`Starting AuctionHouse indexer for ${AUCTION_HOUSE_ADDRESS}`);
-    //   await setupAuctionHouseIndexer(
+    // if (NFT_FACTORY_ADDRESS) {
+    //   console.log(`Starting NFTFactory indexer for ${NFT_FACTORY_ADDRESS}`);
+    //   await setupNFTFactoryIndexer(
     //     provider,
     //     supabase,
-    //     AUCTION_HOUSE_ADDRESS,
+    //     NFT_FACTORY_ADDRESS,
+    //     START_BLOCK
+    //   );
+
+    //   console.log(`Starting NFT indexer for ${NFT_FACTORY_ADDRESS}`);
+    //   await setupNFTIndexer(
+    //     provider,
+    //     supabase,
+    //     NFT_FACTORY_ADDRESS,
     //     START_BLOCK
     //   );
     // }
 
-    // // The EnglishAuction indexer will be set up dynamically based on events from AuctionHouse
-    // console.log(
-    //   "Setting up EnglishAuction indexer for dynamically created contracts"
-    // );
-    // await setupEnglishAuctionIndexer(provider, supabase);
+    if (ENGLISH_AUCTION_ADDRESS) {
+      console.log(
+        `Starting EnglishAuction indexer for ${ENGLISH_AUCTION_ADDRESS}`
+      );
+      await setupEnglishAuctionIndexer(
+        provider,
+        supabase,
+        ENGLISH_AUCTION_ADDRESS,
+        START_BLOCK
+      );
+    }
 
     console.log("All indexers started successfully");
   } catch (error) {

@@ -247,6 +247,25 @@ export const erc721Abi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ERC721Holder
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const erc721HolderAbi = [
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'onERC721Received',
+    outputs: [{ name: '', internalType: 'bytes4', type: 'bytes4' }],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ERC721URIStorage
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -500,6 +519,665 @@ export const erc721UriStorageAbi = [
       { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
     ],
     name: 'transferFrom',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// EnglishAuction
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const englishAuctionAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  {
+    type: 'error',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'OwnableInvalidOwner',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'OwnableUnauthorizedAccount',
+  },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'timestamp',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'AuctionCancelled',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'seller',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'nftContract',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'nftId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'startingBid',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'duration',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'createdAt',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'AuctionCreated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'winner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'timestamp',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      { name: 'hadBids', internalType: 'bool', type: 'bool', indexed: false },
+    ],
+    name: 'AuctionEnded',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'oldEndTime',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newEndTime',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'AuctionExtended',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'AuctionStartStarted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'startTime',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'endTime',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'AuctionStarted',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'bidder',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'timestamp',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'previousBidder',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'previousBid',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'BidPlaced',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'bidder',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'timestamp',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'BidWithdrawn',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldMinBidIncrementPercentage',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newMinBidIncrementPercentage',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'MinBidIncrementPercentageUpdated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Paused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'auctionId',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: true,
+      },
+      {
+        name: 'seller',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      { name: 'first', internalType: 'bool', type: 'bool', indexed: false },
+      { name: 'second', internalType: 'bool', type: 'bool', indexed: false },
+      { name: 'third', internalType: 'bool', type: 'bool', indexed: false },
+    ],
+    name: 'TestEvent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'oldTimeBuffer',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'newTimeBuffer',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'TimeBufferUpdated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Unpaused',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'auctionBidInfos',
+    outputs: [
+      { name: 'highestBidder', internalType: 'address', type: 'address' },
+      { name: 'highestBid', internalType: 'uint256', type: 'uint256' },
+      { name: 'bidsCount', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'address', type: 'address' },
+    ],
+    name: 'auctionBids',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'auctionCores',
+    outputs: [
+      { name: 'nftContract', internalType: 'address', type: 'address' },
+      { name: 'nftId', internalType: 'uint256', type: 'uint256' },
+      { name: 'seller', internalType: 'address payable', type: 'address' },
+      { name: 'startingBid', internalType: 'uint256', type: 'uint256' },
+      { name: 'endAt', internalType: 'uint256', type: 'uint256' },
+      { name: 'started', internalType: 'bool', type: 'bool' },
+      { name: 'ended', internalType: 'bool', type: 'bool' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'auctionIdCounter',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'auctionTimestamps',
+    outputs: [
+      { name: 'createdAt', internalType: 'uint256', type: 'uint256' },
+      { name: 'startedAt', internalType: 'uint256', type: 'uint256' },
+      { name: 'endedAt', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_auctionId', internalType: 'uint256', type: 'uint256' }],
+    name: 'cancelAuction',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_nftContract', internalType: 'address', type: 'address' },
+      { name: '_nftId', internalType: 'uint256', type: 'uint256' },
+      { name: '_startingBid', internalType: 'uint256', type: 'uint256' },
+      { name: '_duration', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'createAuction',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_auctionId', internalType: 'uint256', type: 'uint256' }],
+    name: 'endAuction',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_startIndex', internalType: 'uint256', type: 'uint256' },
+      { name: '_count', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getActiveAuctions',
+    outputs: [{ name: '', internalType: 'uint256[]', type: 'uint256[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_auctionId', internalType: 'uint256', type: 'uint256' }],
+    name: 'getAuctionBidInfo',
+    outputs: [
+      { name: 'highestBidder', internalType: 'address', type: 'address' },
+      { name: 'highestBid', internalType: 'uint256', type: 'uint256' },
+      { name: 'bidsCount', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_auctionId', internalType: 'uint256', type: 'uint256' }],
+    name: 'getAuctionCore',
+    outputs: [
+      { name: 'nftContract', internalType: 'address', type: 'address' },
+      { name: 'nftId', internalType: 'uint256', type: 'uint256' },
+      { name: 'seller', internalType: 'address', type: 'address' },
+      { name: 'startingBid', internalType: 'uint256', type: 'uint256' },
+      { name: 'endAt', internalType: 'uint256', type: 'uint256' },
+      { name: 'started', internalType: 'bool', type: 'bool' },
+      { name: 'ended', internalType: 'bool', type: 'bool' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_auctionId', internalType: 'uint256', type: 'uint256' }],
+    name: 'getAuctionTimestamps',
+    outputs: [
+      { name: 'createdAt', internalType: 'uint256', type: 'uint256' },
+      { name: 'startedAt', internalType: 'uint256', type: 'uint256' },
+      { name: 'endedAt', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getTotalAuctions',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_user', internalType: 'address', type: 'address' }],
+    name: 'getUserAuctions',
+    outputs: [{ name: '', internalType: 'uint256[]', type: 'uint256[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_auctionId', internalType: 'uint256', type: 'uint256' },
+      { name: '_user', internalType: 'address', type: 'address' },
+    ],
+    name: 'getUserBidAmount',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_user', internalType: 'address', type: 'address' }],
+    name: 'getUserBids',
+    outputs: [{ name: '', internalType: 'uint256[]', type: 'uint256[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'minBidIncrementPercentage',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'onERC721Received',
+    outputs: [{ name: '', internalType: 'bytes4', type: 'bytes4' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'pause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_auctionId', internalType: 'uint256', type: 'uint256' }],
+    name: 'placeBid',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: '_minBidIncrementPercentage',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+    ],
+    name: 'setMinBidIncrementPercentage',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_timeBuffer', internalType: 'uint256', type: 'uint256' }],
+    name: 'setTimeBuffer',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_auctionId', internalType: 'uint256', type: 'uint256' },
+      { name: '_duration', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'startAuction',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'timeBuffer',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'unpause',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'userAuctions',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '', internalType: 'address', type: 'address' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'userBids',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_auctionId', internalType: 'uint256', type: 'uint256' }],
+    name: 'withdrawBid',
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -1795,6 +2473,56 @@ export const ownableAbi = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Pausable
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const pausableAbi = [
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Paused',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'account',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'Unpaused',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ReentrancyGuard
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const reentrancyGuardAbi = [
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SafeCast
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2054,6 +2782,38 @@ export const useWatchErc721TransferEvent =
   })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link erc721HolderAbi}__
+ */
+export const useWriteErc721Holder = /*#__PURE__*/ createUseWriteContract({
+  abi: erc721HolderAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link erc721HolderAbi}__ and `functionName` set to `"onERC721Received"`
+ */
+export const useWriteErc721HolderOnErc721Received =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: erc721HolderAbi,
+    functionName: 'onERC721Received',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link erc721HolderAbi}__
+ */
+export const useSimulateErc721Holder = /*#__PURE__*/ createUseSimulateContract({
+  abi: erc721HolderAbi,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link erc721HolderAbi}__ and `functionName` set to `"onERC721Received"`
+ */
+export const useSimulateErc721HolderOnErc721Received =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: erc721HolderAbi,
+    functionName: 'onERC721Received',
+  })
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link erc721UriStorageAbi}__
  */
 export const useReadErc721UriStorage = /*#__PURE__*/ createUseReadContract({
@@ -2265,6 +3025,559 @@ export const useWatchErc721UriStorageTransferEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: erc721UriStorageAbi,
     eventName: 'Transfer',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__
+ */
+export const useReadEnglishAuction = /*#__PURE__*/ createUseReadContract({
+  abi: englishAuctionAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"auctionBidInfos"`
+ */
+export const useReadEnglishAuctionAuctionBidInfos =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'auctionBidInfos',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"auctionBids"`
+ */
+export const useReadEnglishAuctionAuctionBids =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'auctionBids',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"auctionCores"`
+ */
+export const useReadEnglishAuctionAuctionCores =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'auctionCores',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"auctionIdCounter"`
+ */
+export const useReadEnglishAuctionAuctionIdCounter =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'auctionIdCounter',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"auctionTimestamps"`
+ */
+export const useReadEnglishAuctionAuctionTimestamps =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'auctionTimestamps',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"getActiveAuctions"`
+ */
+export const useReadEnglishAuctionGetActiveAuctions =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'getActiveAuctions',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"getAuctionBidInfo"`
+ */
+export const useReadEnglishAuctionGetAuctionBidInfo =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'getAuctionBidInfo',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"getAuctionCore"`
+ */
+export const useReadEnglishAuctionGetAuctionCore =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'getAuctionCore',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"getAuctionTimestamps"`
+ */
+export const useReadEnglishAuctionGetAuctionTimestamps =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'getAuctionTimestamps',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"getTotalAuctions"`
+ */
+export const useReadEnglishAuctionGetTotalAuctions =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'getTotalAuctions',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"getUserAuctions"`
+ */
+export const useReadEnglishAuctionGetUserAuctions =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'getUserAuctions',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"getUserBidAmount"`
+ */
+export const useReadEnglishAuctionGetUserBidAmount =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'getUserBidAmount',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"getUserBids"`
+ */
+export const useReadEnglishAuctionGetUserBids =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'getUserBids',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"minBidIncrementPercentage"`
+ */
+export const useReadEnglishAuctionMinBidIncrementPercentage =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'minBidIncrementPercentage',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadEnglishAuctionOwner = /*#__PURE__*/ createUseReadContract({
+  abi: englishAuctionAbi,
+  functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"paused"`
+ */
+export const useReadEnglishAuctionPaused = /*#__PURE__*/ createUseReadContract({
+  abi: englishAuctionAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"timeBuffer"`
+ */
+export const useReadEnglishAuctionTimeBuffer =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'timeBuffer',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"userAuctions"`
+ */
+export const useReadEnglishAuctionUserAuctions =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'userAuctions',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"userBids"`
+ */
+export const useReadEnglishAuctionUserBids =
+  /*#__PURE__*/ createUseReadContract({
+    abi: englishAuctionAbi,
+    functionName: 'userBids',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__
+ */
+export const useWriteEnglishAuction = /*#__PURE__*/ createUseWriteContract({
+  abi: englishAuctionAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"cancelAuction"`
+ */
+export const useWriteEnglishAuctionCancelAuction =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'cancelAuction',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"createAuction"`
+ */
+export const useWriteEnglishAuctionCreateAuction =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'createAuction',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"endAuction"`
+ */
+export const useWriteEnglishAuctionEndAuction =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'endAuction',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"onERC721Received"`
+ */
+export const useWriteEnglishAuctionOnErc721Received =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'onERC721Received',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"pause"`
+ */
+export const useWriteEnglishAuctionPause = /*#__PURE__*/ createUseWriteContract(
+  { abi: englishAuctionAbi, functionName: 'pause' },
+)
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"placeBid"`
+ */
+export const useWriteEnglishAuctionPlaceBid =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'placeBid',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useWriteEnglishAuctionRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"setMinBidIncrementPercentage"`
+ */
+export const useWriteEnglishAuctionSetMinBidIncrementPercentage =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'setMinBidIncrementPercentage',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"setTimeBuffer"`
+ */
+export const useWriteEnglishAuctionSetTimeBuffer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'setTimeBuffer',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"startAuction"`
+ */
+export const useWriteEnglishAuctionStartAuction =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'startAuction',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useWriteEnglishAuctionTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"unpause"`
+ */
+export const useWriteEnglishAuctionUnpause =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'unpause',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"withdrawBid"`
+ */
+export const useWriteEnglishAuctionWithdrawBid =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: englishAuctionAbi,
+    functionName: 'withdrawBid',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__
+ */
+export const useSimulateEnglishAuction =
+  /*#__PURE__*/ createUseSimulateContract({ abi: englishAuctionAbi })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"cancelAuction"`
+ */
+export const useSimulateEnglishAuctionCancelAuction =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'cancelAuction',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"createAuction"`
+ */
+export const useSimulateEnglishAuctionCreateAuction =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'createAuction',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"endAuction"`
+ */
+export const useSimulateEnglishAuctionEndAuction =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'endAuction',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"onERC721Received"`
+ */
+export const useSimulateEnglishAuctionOnErc721Received =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'onERC721Received',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"pause"`
+ */
+export const useSimulateEnglishAuctionPause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'pause',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"placeBid"`
+ */
+export const useSimulateEnglishAuctionPlaceBid =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'placeBid',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useSimulateEnglishAuctionRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"setMinBidIncrementPercentage"`
+ */
+export const useSimulateEnglishAuctionSetMinBidIncrementPercentage =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'setMinBidIncrementPercentage',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"setTimeBuffer"`
+ */
+export const useSimulateEnglishAuctionSetTimeBuffer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'setTimeBuffer',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"startAuction"`
+ */
+export const useSimulateEnglishAuctionStartAuction =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'startAuction',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"transferOwnership"`
+ */
+export const useSimulateEnglishAuctionTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"unpause"`
+ */
+export const useSimulateEnglishAuctionUnpause =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'unpause',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link englishAuctionAbi}__ and `functionName` set to `"withdrawBid"`
+ */
+export const useSimulateEnglishAuctionWithdrawBid =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: englishAuctionAbi,
+    functionName: 'withdrawBid',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__
+ */
+export const useWatchEnglishAuctionEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({ abi: englishAuctionAbi })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"AuctionCancelled"`
+ */
+export const useWatchEnglishAuctionAuctionCancelledEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'AuctionCancelled',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"AuctionCreated"`
+ */
+export const useWatchEnglishAuctionAuctionCreatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'AuctionCreated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"AuctionEnded"`
+ */
+export const useWatchEnglishAuctionAuctionEndedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'AuctionEnded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"AuctionExtended"`
+ */
+export const useWatchEnglishAuctionAuctionExtendedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'AuctionExtended',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"AuctionStartStarted"`
+ */
+export const useWatchEnglishAuctionAuctionStartStartedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'AuctionStartStarted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"AuctionStarted"`
+ */
+export const useWatchEnglishAuctionAuctionStartedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'AuctionStarted',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"BidPlaced"`
+ */
+export const useWatchEnglishAuctionBidPlacedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'BidPlaced',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"BidWithdrawn"`
+ */
+export const useWatchEnglishAuctionBidWithdrawnEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'BidWithdrawn',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"MinBidIncrementPercentageUpdated"`
+ */
+export const useWatchEnglishAuctionMinBidIncrementPercentageUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'MinBidIncrementPercentageUpdated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ */
+export const useWatchEnglishAuctionOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"Paused"`
+ */
+export const useWatchEnglishAuctionPausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"TestEvent"`
+ */
+export const useWatchEnglishAuctionTestEventEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'TestEvent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"TimeBufferUpdated"`
+ */
+export const useWatchEnglishAuctionTimeBufferUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'TimeBufferUpdated',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link englishAuctionAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const useWatchEnglishAuctionUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: englishAuctionAbi,
+    eventName: 'Unpaused',
   })
 
 /**
@@ -3422,4 +4735,44 @@ export const useWatchOwnableOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: ownableAbi,
     eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link pausableAbi}__
+ */
+export const useReadPausable = /*#__PURE__*/ createUseReadContract({
+  abi: pausableAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link pausableAbi}__ and `functionName` set to `"paused"`
+ */
+export const useReadPausablePaused = /*#__PURE__*/ createUseReadContract({
+  abi: pausableAbi,
+  functionName: 'paused',
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link pausableAbi}__
+ */
+export const useWatchPausableEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: pausableAbi,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link pausableAbi}__ and `eventName` set to `"Paused"`
+ */
+export const useWatchPausablePausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: pausableAbi,
+    eventName: 'Paused',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link pausableAbi}__ and `eventName` set to `"Unpaused"`
+ */
+export const useWatchPausableUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: pausableAbi,
+    eventName: 'Unpaused',
   })

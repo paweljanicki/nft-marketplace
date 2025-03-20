@@ -5,6 +5,7 @@ import supabase from "../shared/utils/supabase";
 import { ImageLoader } from "../shared/components/ImageLoader";
 import { Box, Flex, Stack, Text, Title } from "@mantine/core";
 import { NFTAuction } from "./NFTAuction";
+import { Auction } from "./Auction";
 
 export const NFTDetails = (): React.ReactElement => {
   const { address, tokenId } = useParams();
@@ -25,7 +26,7 @@ export const NFTDetails = (): React.ReactElement => {
       }
     }
     fetchNFT();
-  });
+  }, []);
 
   if (!nft) {
     return <div>Loading...</div>;
@@ -65,7 +66,7 @@ export const NFTDetails = (): React.ReactElement => {
           </Text>
         </Flex>
       </Flex>
-      <NFTAuction nft={nft} />
+      <Auction nft={nft} />
     </Stack>
   );
 };
