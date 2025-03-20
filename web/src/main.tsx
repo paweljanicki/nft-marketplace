@@ -3,7 +3,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { WagmiProvider } from "wagmi";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
 
 import App from "./App.tsx";
 import { config } from "./wagmi.ts";
@@ -33,7 +38,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "/", element: <div>Main</div> },
+      { path: "/", element: <Navigate to="/collections" replace /> },
       {
         path: "/create-collection",
         element: <CreateCollection />,
