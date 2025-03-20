@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  indexer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - RPC_URL=${RPC_URL}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - NFT_FACTORY_ADDRESS=${NFT_FACTORY_ADDRESS}
+      - START_BLOCK=${START_BLOCK}
+      - ENGLISH_AUCTION_ADDRESS=${ENGLISH_AUCTION_ADDRESS}
+    restart: unless-stopped

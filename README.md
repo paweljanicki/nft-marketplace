@@ -15,8 +15,9 @@ The repo consists of 3 distinct parts:
 3. For supabase setup you need to create your own supabase project and link it to `backend` directory, using supabase CLI. Refer to supabase CLI documentation
 4. After linking supabase project, create `.env` file in `/backend/supabase` directory, by coping `.env.example` and supplying it with real values
 5. You can deploy supabase functions by running `npm run functions:deploy` in `/backend` directory
-6. To deploy your own smart contract `cd hardhat` and use npm scripts. If you want to deploy to Base Sepolia use `npm run deploy:factory:base` and `npm run deploy:auction:base`
-7. After deployed NFTFactory and EnglishAuction smart contracts (e.g. by running commands in the step above), you can add them to `.env` in `/backend` and `.env.local` in `/web` directory
+6. To setup your Supabase Postgres database, use `/backend/supabase/schema.sql`
+7. To deploy your own smart contract `cd hardhat` and use npm scripts. If you want to deploy to Base Sepolia use `npm run deploy:factory:base` and `npm run deploy:auction:base`
+8. After deployed NFTFactory and EnglishAuction smart contracts (e.g. by running commands in the step above), you can add them to `.env` in `/backend` and `.env.local` in `/web` directory
 
 ### Start development environment
 
