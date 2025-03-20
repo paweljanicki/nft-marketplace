@@ -9,6 +9,8 @@ contract NFT is ERC721, ERC721URIStorage, Ownable {
     uint256 private _nextTokenId;
     string private _collectionCID;
 
+    event Minted(address indexed to, uint256 indexed tokenId, string tokenURI);
+
     /**
      * @dev Constructor to initialize the contract
      * @param name The name of the NFT collection
@@ -37,6 +39,8 @@ contract NFT is ERC721, ERC721URIStorage, Ownable {
         
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, tokenURI_);
+
+        emit Minted(to, tokenId, tokenURI_);
         
         return tokenId;
     }

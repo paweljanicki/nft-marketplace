@@ -147,6 +147,26 @@ export const nftAbi = [
     type: "event",
     anonymous: false,
     inputs: [
+      { name: "to", internalType: "address", type: "address", indexed: true },
+      {
+        name: "tokenId",
+        internalType: "uint256",
+        type: "uint256",
+        indexed: true,
+      },
+      {
+        name: "tokenURI",
+        internalType: "string",
+        type: "string",
+        indexed: false,
+      },
+    ],
+    name: "Minted",
+  },
+  {
+    type: "event",
+    anonymous: false,
+    inputs: [
       {
         name: "previousOwner",
         internalType: "address",

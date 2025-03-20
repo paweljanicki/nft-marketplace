@@ -42,6 +42,7 @@ export async function updateDeployedCollections({
     .upsert(deployedCollections);
 
   if (error) {
+    console.log("Error upserting collections", error);
     throw error;
   }
 }

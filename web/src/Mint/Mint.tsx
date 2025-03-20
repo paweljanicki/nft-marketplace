@@ -1,6 +1,16 @@
-import { Box, Button, Text, Textarea, TextInput, Title } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Flex,
+  Loader,
+  Stack,
+  Text,
+  Textarea,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { hasLength, matches, useForm } from "@mantine/form";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ImageUpload } from "../shared/components/ImageUpload";
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
@@ -9,6 +19,8 @@ import { createJsonFile } from "../shared/utils";
 import { useWriteNftMint } from "../contracts";
 import { Address } from "viem";
 import { useAccount } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
+import { config } from "../wagmi";
 
 interface IMintNFTForm {
   name: string;
@@ -22,6 +34,9 @@ interface IMintNFT {
 
 export function Mint(): React.ReactElement {
   const [image, setImage] = useState<File | null>(null);
+  const [status, setStatus] = useState<
+    "default" | "uploadingMetadata" | "minting" | "success" | "error"
+  >("default");
   const account = useAccount();
   const { address } = useParams();
 
@@ -46,22 +61,14 @@ export function Mint(): React.ReactElement {
   }
 
   const mintNFT = async ({ to, metadataURI }: IMintNFT) => {
-    const txHash = await writeContractAsync({
+    const hash = await writeContractAsync({
       address: address as Address, // NFT contract address
       args: [to, metadataURI],
     });
 
-    console.log("Mint NFT txHash:", txHash);
-
-    // const NFTcontractAddress =
-    //   await extractContractAddressFromTransaction(txHash);
-
-    // console.log("NFT Contract Address:", NFTcontractAddress);
-
-    // if (!NFTcontractAddress) {
-    //   throw new Error("Error creating NFT collection");
-    // }
-    // setDeployedContractAddress(NFTcontractAddress);
+    await waitForTransactionReceipt(config, {
+      hash,
+    });
   };
 
   const uploadMetadata = async ({
@@ -102,14 +109,51 @@ export function Mint(): React.ReactElement {
   };
 
   const handleSubmit = async (values: IMintNFTForm) => {
+    setStatus("uploadingMetadata");
     console.log("Minting NFT with values:", values);
     const metadataURI = await uploadMetadata(values);
 
-    await mintNFT({
-      to: account.address as Address, // current user
-      metadataURI,
-    });
+    setStatus("minting");
+    try {
+      await mintNFT({
+        to: account.address as Address, // current user
+        metadataURI,
+      });
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      return;
+    }
   };
+
+  if (status !== "default") {
+    return (
+      <Flex align="center" justify="center" style={{ height: "80vh" }}>
+        <Flex align="center" justify="center" gap={16}>
+          <Text>
+            {status === "uploadingMetadata" &&
+              "Uploading Metadata. Please wait..."}
+            {status === "minting" &&
+              "To mint the NFT approve transaction in your wallet"}
+          </Text>
+          {(status === "uploadingMetadata" || status === "minting") && (
+            <Loader />
+          )}
+          <Text c="red">{status === "error" && "Error minting NFT"}</Text>
+          {status === "success" && (
+            <Stack align="center">
+              <Text>
+                NFT minted successfully. You can view it in your collection
+              </Text>
+              <Link to={`/collections/${address}`}>
+                <Button variant="outline">Go to collection</Button>
+              </Link>
+            </Stack>
+          )}
+        </Flex>
+      </Flex>
+    );
+  }
 
   return (
     <Box>

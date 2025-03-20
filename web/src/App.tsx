@@ -46,7 +46,7 @@ function App() {
           />
         </AppShell.Navbar>
 
-        <AppShell.Main w={{ base: "95vw" }}>
+        <AppShell.Main>
           <Outlet />
         </AppShell.Main>
       </AppShell>

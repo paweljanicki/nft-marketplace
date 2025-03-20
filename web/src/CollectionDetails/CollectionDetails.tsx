@@ -5,6 +5,7 @@ import supabase from "../shared/utils/supabase";
 import { notifications } from "@mantine/notifications";
 import { Box, Button, Flex, Image, Loader, Text, Title } from "@mantine/core";
 import { useAccount } from "wagmi";
+import { NFTCard } from "./NFTCard";
 
 export function CollectionDetails(): React.ReactElement {
   const account = useAccount();
@@ -38,13 +39,15 @@ export function CollectionDetails(): React.ReactElement {
         .select()
         .eq("collection_address", address);
 
-      if (error || data.length === 0) {
+      if (error) {
         console.error("Error fetching NFTs:", error);
         notifications.show({
           title: "Error fetching NFTs",
           message: "NFTs not found",
           color: "red",
         });
+      } else if (data.length === 0) {
+        console.log("No NFTs found");
       } else {
         console.log(data);
         setNFTs(data);
@@ -54,10 +57,6 @@ export function CollectionDetails(): React.ReactElement {
     fetchCollection();
     fetchNFTs();
   }, [address]);
-
-  if (!address || !collection) {
-    return <div>Loading...</div>;
-  }
 
   supabase
     .channel("nfts")
@@ -77,6 +76,10 @@ export function CollectionDetails(): React.ReactElement {
       }
     )
     .subscribe();
+
+  if (!address || !collection) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box>
@@ -130,33 +133,15 @@ export function CollectionDetails(): React.ReactElement {
         </Flex>
       </Flex>
       <Box mt={32}>
-        <Title order={2}>Items:</Title>
-        <Flex gap={16}>
+        <Title order={2} mb={16}>
+          Items:
+        </Title>
+        <Flex gap={16} wrap="wrap">
+          {NFTs.length === 0 && <Text>No items found</Text>}
           {NFTs.map((nft) => (
-            <Flex key={nft.token_id}>
-              <Title order={3}>{nft.token_id}</Title>
-              <Box w={160} h={160} pos="relative">
-                <Flex
-                  justify="center"
-                  align="center"
-                  h={160}
-                  w={160}
-                  pos="absolute"
-                  style={{ zIndex: 10 }}
-                >
-                  <Loader />
-                </Flex>
-                <Image
-                  style={{ zIndex: 20 }}
-                  pos="relative"
-                  radius="md"
-                  h={160}
-                  w={160}
-                  src={nft.image_uri}
-                  alt={nft.token_id.toString()}
-                />
-              </Box>
-            </Flex>
+            <Box key={nft.token_id} w={240}>
+              <NFTCard nft={nft} />
+            </Box>
           ))}
         </Flex>
       </Box>

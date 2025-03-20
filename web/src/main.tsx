@@ -22,6 +22,7 @@ import { CreateCollection } from "./CreateCollection/CreateCollection.tsx";
 import { Collections } from "./Collections/Collections.tsx";
 import { CollectionDetails } from "./CollectionDetails/CollectionDetails.tsx";
 import { Mint } from "./Mint/Mint.tsx";
+import { NFTDetails } from "./NFTDetails/NFTDetails.tsx";
 
 globalThis.Buffer = Buffer;
 
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
               {
                 path: "mint",
                 element: <Mint />,
+              },
+              {
+                path: "nft/:tokenId",
+                element: <NFTDetails />,
               },
             ],
           },

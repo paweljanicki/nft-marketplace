@@ -13,4 +13,6 @@ export interface INFT {
   metadata_uri: string;
   collection_address: string;
   image_uri: string;
+  name: string;
+  description: string;
 }

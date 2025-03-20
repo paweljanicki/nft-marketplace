@@ -4,6 +4,7 @@ import supabase from "../shared/utils/supabase";
 import { Box, Flex, Grid, Image, Loader, Text, Title } from "@mantine/core";
 import { Link } from "react-router-dom";
 import styles from "./collections.module.css";
+import { ImageLoader } from "../shared/components/ImageLoader";
 
 export function Collections(): React.ReactElement {
   const [collections, setCollections] = useState<ICollection[] | null>(null);
@@ -67,30 +68,15 @@ export function Collections(): React.ReactElement {
                 gap={16}
                 p={8}
               >
-                <Box w={100} h={100} pos="relative">
-                  <Flex
-                    justify="center"
-                    align="center"
-                    h={100}
-                    w={100}
-                    pos="absolute"
-                    style={{ zIndex: 10 }}
-                  >
-                    <Loader />
-                  </Flex>
-                  <Image
-                    style={{ zIndex: 20 }}
-                    pos="relative"
-                    radius="md"
-                    h={100}
-                    w={100}
-                    src={
-                      import.meta.env.VITE_PINATA_BASE_URL +
-                      collection.collection_cid
-                    }
-                    alt={collection.name}
-                  />
-                </Box>
+                <ImageLoader
+                  width={100}
+                  height={100}
+                  src={
+                    import.meta.env.VITE_PINATA_BASE_URL +
+                    collection.collection_cid
+                  }
+                  alt={collection.name}
+                />
                 <Flex direction="column" align="start">
                   <Title order={3}>{collection.name}</Title>
                   <Text>{collection.symbol}</Text>
