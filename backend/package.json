@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "0.0.1",
-  "main": "indexer/dist/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
