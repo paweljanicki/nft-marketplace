@@ -6,7 +6,10 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 export const corsHeaders = (origin: string): Record<string, string> => {
-  const allowedOrigins = ["http://localhost:5173"];
+  const allowedOrigins = [
+    "http://localhost:5173",
+    "https://nft-marketplace-chi-livid.vercel.app",
+  ];
 
   if (!allowedOrigins.includes(origin)) {
     return {};
