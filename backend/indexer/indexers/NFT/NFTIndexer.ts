@@ -34,7 +34,6 @@ export async function setupNFTIndexer(
     await addNewNFTs({
       nftContract,
       supabase,
-      provider,
     });
   });
 }

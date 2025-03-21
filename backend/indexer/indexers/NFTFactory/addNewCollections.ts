@@ -40,7 +40,6 @@ export async function addNewCollections({
       addNewNFTs({
         nftContract: new ethers.Contract(contractAddress, nftAbi, provider),
         supabase,
-        provider,
       });
     }
   );
