@@ -23,6 +23,7 @@ export async function listenToBids({
       previousBid
     ) => {
       console.log(
+        "BidPlaced event",
         auctionId,
         bidder,
         amount,

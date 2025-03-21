@@ -1,23 +1,36 @@
-import { Contract, ethers } from "ethers";
+import { Contract } from "ethers";
 import { Database } from "../../types/supabase";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { nftAbi } from "../../abis/NFTAbi";
 
 export async function addNewNFTs({
   nftContract, // specific NFT contract
   supabase,
-  provider,
 }: {
   nftContract: Contract;
   supabase: SupabaseClient<Database>;
-  provider: ethers.providers.Provider;
 }) {
   nftContract.on("Minted", async (owner, tokenId, metadataURI) => {
     console.log("New NFT contract created", owner, tokenId, metadataURI);
-    const metadata = await fetch(metadataURI).then((res) => res.json());
-    const imageURI = metadata.image;
-    const name = metadata.name;
-    const description = metadata.description;
+
+    // Handle NFT created with invalid metadata URI
+    let metadata;
+    try {
+      const res = await fetch(metadataURI);
+      metadata = await res.json();
+    } catch (error) {
+      console.log(
+        `Error fetching metadata for ${nftContract.address}, tokenId ${tokenId}:`,
+        error
+      );
+    }
+
+    // Handle NFT created with invalid metadata
+    const imageURI = metadata && metadata.image ? metadata.image : "";
+    const name = metadata && metadata.name ? metadata.name : "Name not found";
+    const description =
+      metadata && metadata.description
+        ? metadata.description
+        : "Invalid NFT metadata. Please check the metadata URI. Description not found.";
 
     const { error } = await supabase.from("nfts").upsert([
       {

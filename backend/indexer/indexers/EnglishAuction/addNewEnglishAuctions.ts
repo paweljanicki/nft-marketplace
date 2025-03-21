@@ -24,6 +24,7 @@ export async function addNewEnglishAuctions({
       timestamp
     ) => {
       console.log(
+        "AuctionCreated event",
         auctionId,
         owner,
         nftContract,

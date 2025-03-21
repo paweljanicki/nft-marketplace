@@ -45,12 +45,28 @@ export async function updateNFTsOfDeployedCollections({
           contract.ownerOf(BigInt(tokenId)),
           contract.tokenURI(BigInt(tokenId)),
         ]);
-        const metadata = await fetch(metadataURI).then((res) => res.json());
-        const imageURI = metadata.image;
-        const name = metadata.name;
-        const description = metadata.description;
 
-        console.log("Image URI", imageURI);
+        // Handle NFT created with invalid metadata URI
+        let metadata;
+        try {
+          const res = await fetch(metadataURI);
+          metadata = await res.json();
+        } catch (error) {
+          console.log(
+            `Error fetching metadata for ${collection.contract_address}, tokenId ${tokenId}:`,
+            error
+          );
+        }
+
+        // Handle NFT created with invalid metadata
+        const imageURI = metadata && metadata.image ? metadata.image : "";
+        const name =
+          metadata && metadata.name ? metadata.name : "Name not found";
+        const description =
+          metadata && metadata.description
+            ? metadata.description
+            : "Invalid NFT metadata. Please check the metadata URI. Description not found.";
+
         return {
           token_id: tokenId,
           owner,
