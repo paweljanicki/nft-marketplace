@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "test": "npx hardhat test --network hardhat",
     "reset": "npx hardhat clean",
     "compile": "npx hardhat compile",
-    "deploy:lock": "npx hardhat ignition deploy ./ignition/modules/Lock.ts --network localhost",
-    "deploy:nft": "npx hardhat ignition deploy ./ignition/modules/NFT.ts --network localhost",
-    "deploy:nftFactory": "npx hardhat ignition deploy ./ignition/modules/NFTFactory.ts --network localhost",
+    "deploy:nft:local": "npx hardhat ignition deploy ./ignition/modules/NFT.ts --network localhost",
+    "deploy:nftFactory:local": "npx hardhat ignition deploy ./ignition/modules/NFTFactory.ts --network localhost",
+    "deploy:auction:local": "npx hardhat ignition deploy ./ignition/modules/EnglishAuction.ts --network localhost",
     "deploy:factory:base": "npx hardhat clean && npx hardhat compile && npx hardhat ignition deploy ./ignition/modules/NFTFactory.ts",
     "deploy:auction:base": "npx hardhat clean && npx hardhat compile && npx hardhat ignition deploy ./ignition/modules/EnglishAuction.ts"
   },
@@ -16,7 +17,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "hardhat": "^2.22.19"
   },
   "dependencies": {
