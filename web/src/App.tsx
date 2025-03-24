@@ -30,7 +30,7 @@ function App() {
             <Burger
               opened={opened}
               onClick={toggle}
-              hiddenFrom="sm"
+              hiddenFrom="md"
               size="sm"
             />
           </Header>

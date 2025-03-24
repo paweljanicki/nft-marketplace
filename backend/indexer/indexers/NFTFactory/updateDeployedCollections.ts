@@ -12,8 +12,13 @@ export async function updateDeployedCollections({
   supabase: SupabaseClient<Database>;
   provider: ethers.providers.Provider;
 }) {
-  const deployedCollectionsAddresses: string[] =
-    await contract.getDeployedContracts();
+  let deployedCollectionsAddresses: string[];
+  try {
+    deployedCollectionsAddresses = await contract.getDeployedContracts();
+  } catch (error) {
+    console.log("Error getting deployed collections", error);
+    throw error;
+  }
   console.log("Deployed collections addresses", deployedCollectionsAddresses);
 
   const deployedCollections = await Promise.all(

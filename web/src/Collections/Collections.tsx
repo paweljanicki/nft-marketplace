@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ICollection } from "../shared/types";
 import supabase from "../shared/utils/supabase";
 import { Box, Flex, Grid, Text, Title } from "@mantine/core";
@@ -7,6 +7,7 @@ import styles from "./collections.module.css";
 import { ImageLoader } from "../shared/components/ImageLoader";
 
 export function Collections(): React.ReactElement {
+  const collectionsChannelRef = useRef<any>(null);
   const [collections, setCollections] = useState<ICollection[] | null>(null);
 
   useEffect(() => {
@@ -19,31 +20,38 @@ export function Collections(): React.ReactElement {
         setCollections(data);
       }
     }
-
     fetchCollections();
-  }, []);
 
-  supabase
-    .channel("collections")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "collections" },
-      (payload) => {
-        console.log("Change received!", payload);
-        if (!payload.new) {
-          return;
-        }
-
-        const newCollection = payload.new as ICollection;
-        setCollections((collections) => {
-          if (!collections) {
-            return null;
+    const collectionsChannel = supabase
+      .channel("collections")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "collections" },
+        (payload) => {
+          console.log("Change received!", payload);
+          if (!payload.new) {
+            return;
           }
-          return [...collections, newCollection];
-        });
+
+          const newCollection = payload.new as ICollection;
+          setCollections((collections) => {
+            if (!collections) {
+              return null;
+            }
+            return [...collections, newCollection];
+          });
+        }
+      )
+      .subscribe();
+    collectionsChannelRef.current = collectionsChannel;
+
+    return () => {
+      console.log("Cleaning up subscription channel");
+      if (collectionsChannelRef.current) {
+        supabase.removeChannel(collectionsChannelRef.current);
       }
-    )
-    .subscribe();
+    };
+  }, []);
 
   if (!collections) {
     return <p>Loading...</p>;

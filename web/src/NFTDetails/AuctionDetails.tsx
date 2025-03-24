@@ -1,6 +1,6 @@
 import { Box, Flex, Table, Text } from "@mantine/core";
 import { IAuction, IBid } from "../shared/types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import supabase from "../shared/utils/supabase";
 import { ShortAddress } from "../shared/components/ShortAddress";
 import { PlaceBid } from "./PlaceBid";
@@ -14,6 +14,7 @@ export function AuctionDetails({
   accountAddress: Address;
 }): React.ReactElement {
   const [bids, setBids] = useState<IBid[]>([]);
+  const bidsChannelRef = useRef<any>(null);
 
   useEffect(() => {
     async function fetchAuction() {
@@ -23,34 +24,41 @@ export function AuctionDetails({
         .eq("auction_id", auction.auction_id)
         .order("timestamp", { ascending: false });
 
-      if (error || data.length === 0) {
+      if (error) {
         console.error("Error fetching bids", error);
+      } else if (data.length === 0) {
+        console.log("No bids found");
       } else {
         setBids(data);
       }
     }
     fetchAuction();
-  }, []);
 
-  supabase
-    .channel("bids")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "bids" },
-      (payload) => {
-        console.log("Change received!", payload);
-        if (!payload.new) {
-          return;
+    bidsChannelRef.current = supabase
+      .channel("bids")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "bids" },
+        (payload) => {
+          console.log("Change received!", payload);
+          if (!payload.new) {
+            return;
+          }
+
+          const newBid = payload.new as IBid;
+
+          setBids((prevBids) => [newBid, ...prevBids]);
         }
+      )
+      .subscribe();
 
-        console.log("New bid", payload.new);
-
-        const newBid = payload.new as IBid;
-
-        setBids((prevBids) => [newBid, ...prevBids]);
+    return () => {
+      console.log("Cleaning up subscription channel");
+      if (bidsChannelRef.current) {
+        supabase.removeChannel(bidsChannelRef.current);
       }
-    )
-    .subscribe();
+    };
+  }, []);
 
   if (!auction) {
     return <Text>No auction found</Text>;

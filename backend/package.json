@@ -8,6 +8,9 @@
     "dev": "ts-node-dev --respawn indexer/index.ts",
     "test": "jest",
     "functions:deploy": "npx supabase functions deploy",
+    "functions:push-secrets": "npx supabase secrets set --env-file ./supabase/.env",
+    "functions:push-secrets:project": "npx supabase secrets set --env-file ./supabase/.env --project-ref",
+    "functions:deploy:project": "npx supabase functions deploy --project-ref",
     "indexer:deploy": "fly deploy"
   },
   "dependencies": {

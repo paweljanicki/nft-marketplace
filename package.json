@@ -5,7 +5,8 @@
   "scripts": {
     "start:hardhat": "cd hardhat && npx hardhat node",
     "start:web": "cd web && npm run contracts:watch & cd web && npm run dev",
-    "start:backend": "cd backend && npm run dev"
+    "start:backend": "cd backend && npm run dev",
+    "reset:local": "cd hardhat && npm run reset:local && cd ../web && npm run contracts-delete && npm run contracts:generate"
   },
   "keywords": [],
   "author": "",

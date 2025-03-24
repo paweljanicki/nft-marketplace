@@ -3,13 +3,19 @@ import {
   useWriteEnglishAuctionStartAuction,
   useWriteNftApprove,
 } from "../contracts";
-import { INFT } from "../shared/types";
+import { IAuction, INFT } from "../shared/types";
 import { Button } from "@mantine/core";
 
 const ENGLISH_AUCTION_ADDRESS = import.meta.env
   .VITE_ENGLISH_AUCTION_CONTRACT as Address;
 
-export function StartAuction({ nft }: { nft: INFT }): React.ReactElement {
+export function StartAuction({
+  nft,
+  auction,
+}: {
+  nft: INFT;
+  auction: IAuction;
+}): React.ReactElement {
   const { writeContractAsync: callApproveNFTTransferToAuctionContract } =
     useWriteNftApprove();
 
@@ -27,7 +33,7 @@ export function StartAuction({ nft }: { nft: INFT }): React.ReactElement {
     await approveEnglishAuction();
     await callStartAuction({
       address: ENGLISH_AUCTION_ADDRESS as Address,
-      args: [BigInt(nft.token_id), BigInt(36000)], // duration in seconds
+      args: [BigInt(auction.auction_id), BigInt(36000)], // duration in seconds
     });
   };
 

@@ -9,8 +9,7 @@ import { setupEnglishAuctionIndexer } from "./indexers/EnglishAuction/EnglishAuc
 dotenv.config();
 
 // Configuration from environment variables
-const RPC_URL =
-  process.env.RPC_URL || "https://eth-mainnet.alchemyapi.io/v2/your-api-key";
+const RPC_URL = process.env.RPC_URL || "";
 const SUPABASE_URL = process.env.SUPABASE_URL || "";
 const SUPABASE_KEY = process.env.SUPABASE_KEY || "";
 const NFT_FACTORY_ADDRESS = process.env.NFT_FACTORY_ADDRESS || "";

@@ -15,6 +15,7 @@ import { uploadFileToPinata } from "../shared/utils/pinata";
 import { useState } from "react";
 import { notifications } from "@mantine/notifications";
 import { Link } from "react-router-dom";
+import { useAccount } from "wagmi";
 
 interface ICreateCollectionForm {
   name: string;
@@ -26,6 +27,7 @@ interface ICreateCollection extends ICreateCollectionForm {
 }
 
 export function CreateCollection(): React.ReactElement {
+  const account = useAccount();
   const [image, setImage] = useState<File | null>(null);
   const [status, setStatus] = useState<
     "default" | "uploadingImage" | "deployingContract" | "success" | "error"
@@ -101,11 +103,20 @@ export function CreateCollection(): React.ReactElement {
     try {
       await createNFTCollection({ ...value, collectionCID });
       setStatus("success");
-    } catch {
+    } catch (error) {
+      console.error("Error creating collection", error);
       setStatus("error");
       return;
     }
   };
+
+  if (!account.address) {
+    return (
+      <Flex align="center" justify="center" style={{ height: "80vh" }}>
+        <Text>Please connect your wallet to create a collection</Text>
+      </Flex>
+    );
+  }
 
   if (status !== "default") {
     return (

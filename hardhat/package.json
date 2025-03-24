@@ -1,16 +1,19 @@
 {
-  "name": "hardhat",
+  "name": "nft-marketplace-contract",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat test --network hardhat",
-    "reset": "npx hardhat clean",
+    "clean": "npx hardhat clean",
     "compile": "npx hardhat compile",
+    "node": "npx hardhat node",
     "deploy:nft:local": "npx hardhat ignition deploy ./ignition/modules/NFT.ts --network localhost",
     "deploy:nftFactory:local": "npx hardhat ignition deploy ./ignition/modules/NFTFactory.ts --network localhost",
     "deploy:auction:local": "npx hardhat ignition deploy ./ignition/modules/EnglishAuction.ts --network localhost",
     "deploy:factory:base": "npx hardhat clean && npx hardhat compile && npx hardhat ignition deploy ./ignition/modules/NFTFactory.ts",
-    "deploy:auction:base": "npx hardhat clean && npx hardhat compile && npx hardhat ignition deploy ./ignition/modules/EnglishAuction.ts"
+    "deploy:auction:base": "npx hardhat clean && npx hardhat compile && npx hardhat ignition deploy ./ignition/modules/EnglishAuction.ts",
+    "delete-deployments": "rm -rf ignition/deployments",
+    "reset:local": "npm run delete-deployments && npm run clean && npm run compile && npm run deploy:nftFactory:local && npm run deploy:auction:local"
   },
   "keywords": [],
   "author": "",

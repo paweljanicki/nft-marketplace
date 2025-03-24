@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "biome check .",
     "preview": "vite preview",
-    "contracts": "wagmi generate",
+    "contracts-delete": "rm src/contracts.ts",
+    "contracts:generate": "wagmi generate",
     "contracts:watch": "wagmi generate --watch"
   },
   "dependencies": {

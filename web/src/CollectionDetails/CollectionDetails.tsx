@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ICollection, INFT } from "../shared/types";
 import supabase from "../shared/utils/supabase";
@@ -13,6 +13,7 @@ export function CollectionDetails(): React.ReactElement {
   const { address } = useParams();
   const [collection, setCollection] = useState<ICollection | null>(null);
   const [NFTs, setNFTs] = useState<INFT[]>([]);
+  const nftsChannelRef = useRef<any>(null);
 
   useEffect(() => {
     async function fetchCollection() {
@@ -33,6 +34,7 @@ export function CollectionDetails(): React.ReactElement {
         setCollection(data[0]);
       }
     }
+    fetchCollection();
 
     async function fetchNFTs() {
       const { data, error } = await supabase
@@ -54,29 +56,36 @@ export function CollectionDetails(): React.ReactElement {
         setNFTs(data);
       }
     }
-
-    fetchCollection();
     fetchNFTs();
-  }, [address]);
 
-  supabase
-    .channel("nfts")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "nfts" },
-      (payload) => {
-        console.log("Change received!", payload);
-        if (!payload.new) {
-          return;
+    const nftsChannel = supabase
+      .channel("nfts")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "nfts" },
+        (payload) => {
+          console.log("Change received!", payload);
+          if (!payload.new) {
+            return;
+          }
+
+          const newNFT = payload.new as INFT;
+          setNFTs((items) => {
+            return [...items, newNFT];
+          });
         }
+      )
+      .subscribe();
 
-        const newNFT = payload.new as INFT;
-        setNFTs((items) => {
-          return [...items, newNFT];
-        });
+    nftsChannelRef.current = nftsChannel;
+
+    return () => {
+      console.log("Cleaning up subscription channel");
+      if (nftsChannelRef.current) {
+        supabase.removeChannel(nftsChannelRef.current);
       }
-    )
-    .subscribe();
+    };
+  }, [address]);
 
   if (!address || !collection) {
     return <div>Loading...</div>;
