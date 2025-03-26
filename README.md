@@ -90,6 +90,8 @@ Indexer starting point is in [backend/indexer/index.ts](/backend/indexer/index.t
 
 ### Start development environment
 
-1. `cd backend` and run `npm run dev` to start the indexer. Indexer will read data from the contracts as well as listen to events and update the database.
-2. `cd web` and run `npm run dev` to start the React app
-3. If you want to actively develop smart contracts, run `npm run contracts:watch` in the `/web` directory, to fetch ABI changes. This uses wagmi CLI to get ABI changes as well as generate React hooks for interacting with smart contracts.
+1. `cd hardhat` and run `npm run node` to start local hardhat network
+2. `cd hardhat` and deploy contracts, use individual scripts or run `npm run reset:local`
+3. `cd backend` and run `npm run dev` to start the indexer. Indexer will read data from the contracts as well as listen to events and update the database.
+4. `cd web` and run `npm run dev` to start the React app
+5. If you want to actively develop smart contracts, run `npm run contracts:watch` in the `/web` directory, to fetch ABI changes. This uses wagmi CLI to get ABI changes as well as generate React hooks for interacting with smart contracts.
