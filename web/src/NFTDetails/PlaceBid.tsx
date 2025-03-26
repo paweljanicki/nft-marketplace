@@ -1,4 +1,4 @@
-import { Address, formatEther, parseEther } from "viem";
+import { Address, formatEther, parseEther, parseUnits } from "viem";
 import { useWriteEnglishAuctionPlaceBid } from "../contracts";
 import { IAuction } from "../shared/types";
 import { Button, Flex, NumberInput, Title } from "@mantine/core";
@@ -25,7 +25,7 @@ export function PlaceBid({
   const { writeContractAsync: callPlaceBid } = useWriteEnglishAuctionPlaceBid();
 
   const handleSubmit = async (value: { bid: number }) => {
-    const weiValue = parseEther(value.bid.toFixed(18));
+    const weiValue = parseUnits(value.bid.toString(), 18);
 
     console.log("Parsed bid", weiValue);
     await callPlaceBid({
