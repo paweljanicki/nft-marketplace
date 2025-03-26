@@ -54,14 +54,39 @@ Indexer starting point is in [backend/indexer/index.ts](/backend/indexer/index.t
 
 ### Development Setup Instructions:
 
-1. `cd` into each directory, and run `npm ci`
-2. create `.env` (or `.env.local`) file in each directory by copying `.env.example` from the respective directory, renaming it and adding required environment variables (You can leave out smart contract addresses for now, as they will be deployed in later steps)
-3. For supabase setup you need to create your own supabase project and link it to `backend` directory, using supabase CLI. Refer to supabase CLI documentation
-4. After linking supabase project, create `.env` file in `/backend/supabase` directory, by coping `.env.example` and supplying it with real values
-5. You can deploy supabase functions by running `npm run functions:deploy` in `/backend` directory
-6. To setup your Supabase Postgres database, use `/backend/supabase/schema.sql`
-7. To deploy your own smart contract `cd hardhat` and use npm scripts. If you want to deploy to Base Sepolia use `npm run deploy:factory:base` and `npm run deploy:auction:base`
-8. After deployed NFTFactory and EnglishAuction smart contracts (e.g. by running commands in the step above), you can add them to `.env` in `/backend` and `.env.local` in `/web` directory
+#### Hardhat - smart contracts
+
+1. `cd hardhat` - go to hardhat directory
+2. run `npm ci`
+3. copy `hardhat/.env.example` into `hardhat/.env` and add environment variables
+4. start local network, run `npm run node` - keep it running while you work
+5. compile and deploy contracts, run `npm run reset:local` or use individual npm scripts
+6. copy the deployed contracts addresses and use them in you backend and web environment variables
+7. you can deploy contracts to other networks, make sure to add them to `hardhat/hardhat.config.ts`. There are already npm scripts for deploying to Base Sepolia, `npm run deploy:factory:base && npm run deploy:auction:base`
+
+#### Backend - indexer
+
+1. `cd backend` - go to backend directory
+2. run `npm ci`
+3. copy `backend/.env.example` into `backend/.env` and add environment variables
+4. run `npm run dev` to start the indexer locally
+
+#### Backend - Supabase
+
+1. copy `backend/supabase/.env.example` into `backend/supabase/.env` and add environment variables
+2. install Supabase CLI and login to Supabase
+3. To run supabase database and edge functions locally refer to Supabase CLI. However for simplicity I recommend deploying:
+4. run `npm run functions:push-secrets` to push environment variables to be used by Supabase functions
+5. run `npm run functions:deploy` to deploy Supabase edge functions
+6. To setup your Supabase Postgres database, use `/backend/supabase/schema.sql`. When using hosted Supabase instance, the easiest way to set it up is to copy the SQL and run it into SQL editor in your Supabase project dashboard. Alternatively refer to Supabase CLI documentation to run it from the CLI
+
+#### Web - dApp
+
+1. `cd web` - go to web directory
+2. run `npm ci`
+3. copy `web/.env.local.example` into `web/.env.local` and environment variables
+4. run `npm run contracts:generate` to generate ABIs and hooks based on smart contracts from the hardhat project
+5. run `npm run dev` to start development server
 
 ### Start development environment
 

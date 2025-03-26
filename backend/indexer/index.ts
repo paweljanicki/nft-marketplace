@@ -11,13 +11,13 @@ dotenv.config();
 // Configuration from environment variables
 const RPC_URL = process.env.RPC_URL || "";
 const SUPABASE_URL = process.env.SUPABASE_URL || "";
-const SUPABASE_KEY = process.env.SUPABASE_KEY || "";
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || "";
 const NFT_FACTORY_ADDRESS = process.env.NFT_FACTORY_ADDRESS || "";
 const ENGLISH_AUCTION_ADDRESS = process.env.ENGLISH_AUCTION_ADDRESS || "";
 const START_BLOCK = parseInt(process.env.START_BLOCK || "0");
 
 // Initialize Supabase client
-const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_KEY);
+const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
 // Initialize Ethereum provider
 const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
