@@ -74,10 +74,19 @@ export function AuctionDetails({
     </Table.Tr>
   ));
 
+  const dateNow = new Date().getTime();
+  const auctionEnd = new Date(auction.end_at).getTime();
+  const biddingClosed = dateNow > auctionEnd;
+
   return (
     <Box>
-      {auction.status === "STARTED" && auction.seller !== accountAddress && (
-        <PlaceBid auction={auction} />
+      {auction.status === "STARTED" &&
+        !biddingClosed &&
+        auction.seller !== accountAddress && <PlaceBid auction={auction} />}
+      {auction.status === "STARTED" && auction.seller === accountAddress && (
+        <Text my={16} fw={700}>
+          This is your auction.
+        </Text>
       )}
       <Flex
         direction={{ base: "column", sm: "row" }}
@@ -92,6 +101,13 @@ export function AuctionDetails({
         <Flex gap={4}>
           <Text fw={500}>Start Price:</Text>
           {formatEther(BigInt(auction.starting_bid))} ETH
+        </Flex>
+        <Flex gap={4}>
+          <Flex fw={500} gap={4}>
+            {biddingClosed && <Text c="red">Bidding Closed at </Text>}
+            {!biddingClosed && <Text c="green">Auction ends at </Text>}
+            <Text>{new Date(auctionEnd).toLocaleString()}</Text>
+          </Flex>
         </Flex>
       </Flex>
 

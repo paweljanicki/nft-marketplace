@@ -27,6 +27,7 @@ export interface IAuction {
   highest_bidder: string;
   highest_bid: string;
   bids_count: number;
+  end_at: string;
 }
 
 export interface IBid {
