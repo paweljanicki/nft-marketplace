@@ -1,4 +1,4 @@
-import { Address, formatEther, parseEther, parseUnits } from "viem";
+import { Address, formatEther, parseUnits } from "viem";
 import { useWriteEnglishAuctionPlaceBid } from "../contracts";
 import { IAuction } from "../shared/types";
 import { Button, Flex, NumberInput, Title } from "@mantine/core";
